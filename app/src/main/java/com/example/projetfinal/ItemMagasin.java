@@ -18,6 +18,7 @@ public class ItemMagasin
         this.coefficientA = coefficientA;
         this.coefficientB = coefficientB;
         this.idImage = idImage;
+
         nb = 0;
     }
 
