@@ -1,9 +1,12 @@
 package com.example.projetfinal;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private int m_argent;
     private int m_multiplier;
     private int m_clickValue;
+    private Context contexte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         m_clickValue = 1;
         m_multiplier = 1;
         m_argent = 0;
+        contexte = getApplicationContext();
         buttonSwitch(R.layout.activity_main);
         ImageView buttonMain = findViewById(R.id.Clicker_main);
 
@@ -27,10 +32,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
         ImageView buttonshop = findViewById(R.id.Shop_main);
         buttonshop.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-               // buttonSwitch(R.layout.);
+            public void onClick(View v)
+            {
+                Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), MagasinActivity.class);
+                startActivity(intent);
             }
 
         });
