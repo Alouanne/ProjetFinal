@@ -29,9 +29,15 @@ public class MagasinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.magasin_layout);
         ImageView image = findViewById(R.id.Shop_main);
-        
+
         listeConversions = new ArrayList<>();
-        listeConversions.add(new ItemMagasin("placeHolder", 0, 1,2, R.drawable.souris));
+        listeConversions.add(new ItemMagasin("Ball de fil", 2,2,1.07));
+        listeConversions.add(new ItemMagasin("poisson", 72,72,1.15));
+        listeConversions.add(new ItemMagasin("bell", 749,749,1.14));
+        listeConversions.add(new ItemMagasin("stick", 9752,9752,1.13));
+        listeConversions.add(new ItemMagasin("souris", 123456,123456,1.13));
+        listeConversions.add(new ItemMagasin("roomba", 1358016,1358016,1.12 ));
+        listeConversions.add(new ItemMagasin("laser", 14659738,14659738,1.12));
 
 
         mainListView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -68,8 +74,6 @@ public class MagasinActivity extends AppCompatActivity {
         {
             final ItemMagasin itemMagasin = listeUpgrades.get(position);
             holder.textViewUpgrade.setText(itemMagasin.getInfoUpgrade());
-            holder.buttonAchat.setText(String.valueOf(itemMagasin.getPrixUpgrade()));
-            holder.imageViewUpgrade.setImageDrawable(getDrawable(itemMagasin.getIdImage()));
 
         }
 

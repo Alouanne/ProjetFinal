@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             clicker.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     m_argent += (m_multiplier * m_clickValue);
-                 //   argent.setText("" + m_argent);
+                    argent.setText("" + m_argent);
                 }
             });
         }
