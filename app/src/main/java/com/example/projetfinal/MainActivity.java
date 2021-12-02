@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
     private int m_argent;
     private int m_multiplier;
@@ -32,7 +35,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                m_argent +=
+            }
+        }, 0, 1000);
         ImageView buttonshop = findViewById(R.id.Shop_main);
         buttonshop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
