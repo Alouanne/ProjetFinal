@@ -9,14 +9,15 @@ public class ItemMagasin
     private double nb;
     private double coefficientA;
     private double coefficientB;
-    //private Drawable image;
+    private int idImage;
 
-    public ItemMagasin(String infoUpgrade, int prixUpgrade, double coefficientA, double coefficientB)
+    public ItemMagasin(String infoUpgrade, int prixUpgrade, double coefficientA, double coefficientB, int idImage)
     {
         this.infoUpgrade = infoUpgrade;
         this.prixUpgrade = prixUpgrade;
         this.coefficientA = coefficientA;
         this.coefficientB = coefficientB;
+        this.idImage = idImage;
         nb = 0;
     }
 
@@ -30,21 +31,21 @@ public class ItemMagasin
         this.prixUpgrade = prixUpgrade;
     }
 
-   /* public void setIdImage(Drawable idImage)
+   public void setIdImage(int idImage)
     {
-        this.image = idImage;
+        this.idImage = idImage;
     }
-*/
+
     public int getPrixUpgrade()
     {
         return prixUpgrade;
     }
-/*
-    public Drawable getIdImage()
+
+    public int getIdImage()
     {
-        return image;
+        return idImage;
     }
-*/
+
     public String getInfoUpgrade()
     {
         return infoUpgrade;
@@ -53,5 +54,6 @@ public class ItemMagasin
     public void updatePrix()
     {
         prixUpgrade = (int) (coefficientA*Math.pow(coefficientB, nb));
+        nb++;
     }
 }

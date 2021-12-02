@@ -31,34 +31,7 @@ public class MagasinActivity extends AppCompatActivity {
         ImageView image = findViewById(R.id.Shop_main);
         
         listeConversions = new ArrayList<>();
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
-        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0, 1,2, R.drawable.souris));
 
 
         mainListView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -95,6 +68,8 @@ public class MagasinActivity extends AppCompatActivity {
         {
             final ItemMagasin itemMagasin = listeUpgrades.get(position);
             holder.textViewUpgrade.setText(itemMagasin.getInfoUpgrade());
+            holder.buttonAchat.setText(String.valueOf(itemMagasin.getPrixUpgrade()));
+            holder.imageViewUpgrade.setImageDrawable(getDrawable(itemMagasin.getIdImage()));
 
         }
 
