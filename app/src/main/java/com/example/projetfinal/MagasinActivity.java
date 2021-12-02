@@ -105,4 +105,5 @@ public class MagasinActivity extends AppCompatActivity {
             }
         }
     }
+
 }

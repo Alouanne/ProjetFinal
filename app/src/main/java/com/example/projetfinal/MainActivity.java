@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                m_argent +=
+                //m_argent +=
             }
         }, 0, 1000);
         ImageView buttonshop = findViewById(R.id.Shop_main);
