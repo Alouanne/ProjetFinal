@@ -83,11 +83,10 @@ public class MagasinActivity extends AppCompatActivity {
         public MagasinViewHolder onCreateViewHolder(final ViewGroup parent, int viewType)
         {
             View view = LayoutInflater.from(contexte).inflate(R.layout.row_magasin, parent, false);
-            final MagasinViewHolder conversionViewHolder = new MagasinViewHolder(view);
+            final MagasinViewHolder magasinViewHolder = new MagasinViewHolder(view);
 
 
-
-            return conversionViewHolder;
+            return magasinViewHolder;
         }
 
 
@@ -95,6 +94,7 @@ public class MagasinActivity extends AppCompatActivity {
         public void onBindViewHolder(final MagasinViewHolder holder, int position)
         {
             final ItemMagasin itemMagasin = listeUpgrades.get(position);
+            holder.textViewUpgrade.setText(itemMagasin.getInfoUpgrade());
 
         }
 
