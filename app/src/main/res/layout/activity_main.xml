@@ -35,42 +35,14 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#000000" />
 
-        <LinearLayout
+        <include
+            android:id="@+id/low"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            layout="@layout/menu"/>
 
-            <ImageView
-                android:id="@+id/Clicker_main"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/main_logo"
-                />
-
-            <ImageView
-                android:id="@+id/Shop_main"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:minHeight="30dp"
-                android:clickable="true"
-                android:focusable="true"
-
-                app:srcCompat="@drawable/shop_logo" />
-
-            <ImageView
-                android:id="@+id/specialShop_main"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/special_shop_logo" />
-        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
