@@ -33,6 +33,32 @@ public class MagasinActivity extends AppCompatActivity {
         listeConversions = new ArrayList<>();
         listeConversions.add(new ItemMagasin("placeHolder", 0));
         listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
+        listeConversions.add(new ItemMagasin("placeHolder", 0));
 
 
         mainListView = (RecyclerView) findViewById(R.id.recyclerView);
