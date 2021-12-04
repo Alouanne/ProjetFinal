@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     private int m_argent;
     private int m_multiplier;
     private int m_clickValue;
-    private Context contexte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         m_clickValue = 1;
         m_multiplier = 1;
         m_argent = 0;
-        contexte = getApplicationContext();
         buttonSwitch(R.layout.activity_main);
         ImageView buttonMain = findViewById(R.id.Clicker_main);
 
@@ -35,10 +33,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+        TextView argent = findViewById(R.id.numberMoney);
+
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                //m_argent +=
+                m_argent += m_multiplier;
+                argent.setText("" + m_argent);
             }
         }, 0, 1000);
         ImageView buttonshop = findViewById(R.id.Shop_main);
