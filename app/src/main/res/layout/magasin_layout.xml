@@ -5,21 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <include
-        android:id="@+id/low"
-        layout="@layout/menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:minHeight="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="-27dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            tools:ignore="MissingConstraints">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/textViewArgent"
+            android:layout_width="match_parent"
+            android:layout_height="194dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="clip_horizontal|center_horizontal|center_vertical"
+            android:text="placehoder"
+            android:textSize="20sp" />
+
+        <include
+            android:id="@+id/low"
+            layout="@layout/menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

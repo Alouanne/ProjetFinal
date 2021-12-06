@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private int m_argent;
     private int m_multiplier;
     private int m_clickValue;
+    private int[] etatUpgrades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         m_clickValue = 1;
         m_multiplier = 1;
         m_argent = 0;
+        etatUpgrades = new int[] {0,0,0,0,0,0,0};
         buttonSwitch(R.layout.activity_main);
         ImageView buttonMain = findViewById(R.id.Clicker_main);
 
@@ -46,15 +48,30 @@ public class MainActivity extends AppCompatActivity {
         buttonshop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), MagasinActivity.class);
-                startActivity(intent);
+                intent.putExtra("argent", m_argent);
+                intent.putExtra("listeUpgrades", etatUpgrades);
+                startActivityForResult(intent, 1);
             }
 
         });
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode,resultCode,data);
+
+        switch (requestCode)
+        {
+            default: int points = data.getIntExtra("pointage", 100);
+                m_argent = points;
+                ((TextView)findViewById(R.id.numberMoney)).setText(String.valueOf(points));
+                etatUpgrades = data.getIntArrayExtra("listeUpgrades");
+                break;
+        }
+    }
 
     public void buttonSwitch(int v) {
         setContentView(v);

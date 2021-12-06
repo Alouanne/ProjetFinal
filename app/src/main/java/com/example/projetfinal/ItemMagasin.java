@@ -11,7 +11,7 @@ public class ItemMagasin
     private double coefficientB;
     private int idImage;
 
-    public ItemMagasin(String infoUpgrade, int prixUpgrade, double coefficientA, double coefficientB, int idImage)
+    public ItemMagasin(String infoUpgrade, int prixUpgrade, double coefficientA, double coefficientB, int idImage, int nbAchats)
     {
         this.infoUpgrade = infoUpgrade;
         this.prixUpgrade = prixUpgrade;
@@ -19,7 +19,8 @@ public class ItemMagasin
         this.coefficientB = coefficientB;
         this.idImage = idImage;
 
-        nb = 0;
+        for (int i = 0; i < nbAchats; i++)
+            updatePrix();
     }
 
     public void  setInfoUpgrade(String infoUpgrade)
@@ -54,7 +55,7 @@ public class ItemMagasin
 
     public void updatePrix()
     {
-        prixUpgrade = (int) (coefficientA*Math.pow(coefficientB, nb));
+        prixUpgrade = (int) ((nb+2)*(coefficientA*Math.pow(coefficientB, nb)));
         nb++;
     }
 }
