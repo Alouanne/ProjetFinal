@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -174,6 +177,33 @@ public class MagasinActivity extends AppCompatActivity {
                 buttonAchat = (Button) view.findViewById(R.id.buttonAchat);
             }
         }
+    }
+
+    @Override
+    public void onStop()
+    {
+        FileOutputStream fos;
+        try {
+            fos = openFileOutput("sauvegardeClicker.txt", Context.MODE_PRIVATE);
+            fos.write(String.valueOf(m_argent).getBytes());
+
+            for (int i = 0; i < etatUpgrades.length; i++)
+            {
+                fos.write(" ".getBytes());
+                System.out.println(etatUpgrades[i]);
+                fos.write(String.valueOf(etatUpgrades[i]).getBytes());
+            }
+            fos.write(" buffer".getBytes());
+            fos.close();
+            System.out.println("rerussite");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("fin");
+
+        super.onStop();
     }
 
 }
