@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MagasinActivity extends AppCompatActivity {
 
@@ -65,6 +67,16 @@ public class MagasinActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                int m_multiplier= etatUpgrades[0]+etatUpgrades[1]*20+etatUpgrades[2]*90+etatUpgrades[3]*360;
+                m_multiplier+= etatUpgrades[4]*2160+etatUpgrades[5]*18100+etatUpgrades[6]*162885;
+                m_argent += m_multiplier;
+                argent.setText("" + m_argent);
+            }
+        }, 0, 1000);
     }
 
     @Override

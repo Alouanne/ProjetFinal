@@ -51,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 1; i < 8; i++)
             {
                 etatUpgrades[i-1] = Integer.parseInt(quantite[i]);
+
             }
+
+            m_multiplier= etatUpgrades[0]+etatUpgrades[1]*20+etatUpgrades[2]*90+etatUpgrades[3]*360;
+            m_multiplier+= etatUpgrades[4]*2160+etatUpgrades[5]*18100+etatUpgrades[6]*162885;
             fis.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -78,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                int m_multiplier= etatUpgrades[0]+etatUpgrades[1]*20+etatUpgrades[2]*90+etatUpgrades[3]*360;
+                m_multiplier+= etatUpgrades[4]*2160+etatUpgrades[5]*18100+etatUpgrades[6]*162885;
                 m_argent += m_multiplier;
                 argent.setText("" + m_argent);
             }
@@ -123,7 +129,8 @@ public class MainActivity extends AppCompatActivity {
             argent.setText("" + m_argent);
             clicker.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    m_argent += (m_multiplier * m_clickValue);
+
+                    m_argent +=  m_clickValue;
                     argent.setText("" + m_argent);
                 }
             });
