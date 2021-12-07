@@ -60,11 +60,19 @@ public class MagasinActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 intent.putExtra("pointage", m_argent);
-                setResult(1, intent);
-                onActivityResult(1,1, intent);
+                setResult(RESULT_OK, intent);
+                //onActivityResult(1,1, intent);
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        intent.putExtra("pointage", m_argent);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     public class MagasinAdapter extends RecyclerView.Adapter<MagasinAdapter.MagasinViewHolder>

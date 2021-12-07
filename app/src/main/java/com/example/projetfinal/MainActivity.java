@@ -63,13 +63,17 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onActivityResult(requestCode,resultCode,data);
 
-        switch (requestCode)
-        {
-            default: int points = data.getIntExtra("pointage", 100);
-                m_argent = points;
-                ((TextView)findViewById(R.id.numberMoney)).setText(String.valueOf(points));
-                etatUpgrades = data.getIntArrayExtra("listeUpgrades");
-                break;
+        if (data != null) {
+            switch (resultCode) {
+                case RESULT_OK:
+                    int points = data.getIntExtra("pointage", 100);
+                    m_argent = points;
+                    ((TextView) findViewById(R.id.numberMoney)).setText(String.valueOf(points));
+                    etatUpgrades = data.getIntArrayExtra("listeUpgrades");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
