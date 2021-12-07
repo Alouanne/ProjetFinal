@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ProjetFinal</string>
+    <string name="ballFil">Bola de lana</string>
+    <string name="poisson">Pez</string>
+    <string name="cloche">Campana</string>
+    <string name="baton">Palo</string>
+    <string name="souris">Ratón</string>
+    <string name="roomba">Roomba</string>
+    <string name="laser">láser</string>
+</resources>

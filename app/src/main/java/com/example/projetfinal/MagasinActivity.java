@@ -2,8 +2,7 @@ package com.example.projetfinal;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +33,6 @@ public class MagasinActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.magasin_layout);
-        ImageView image = findViewById(R.id.Shop_main);
         intent = getIntent();
 
         etatUpgrades = intent.getIntArrayExtra("listeUpgrades");
@@ -43,13 +41,13 @@ public class MagasinActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));
 
         listeUpgrades = new ArrayList<>();
-        listeUpgrades.add(new ItemMagasin("Ball de fil", 2,2,1.07, R.drawable.yarn, etatUpgrades[0]));
-        listeUpgrades.add(new ItemMagasin("Poisson", 72,72,1.15,R.drawable.fish, etatUpgrades[1]));
-        listeUpgrades.add(new ItemMagasin("Cloche", 749,749,1.14,R.drawable.bell, etatUpgrades[2]));
-        listeUpgrades.add(new ItemMagasin("Baton", 9752,9752,1.13,R.drawable.stick, etatUpgrades[3]));
-        listeUpgrades.add(new ItemMagasin("Souris", 123456,123456,1.13,R.drawable.souris, etatUpgrades[4]));
-        listeUpgrades.add(new ItemMagasin("Roomba", 1358016,1358016,1.12,R.drawable.roomba, etatUpgrades[5]));
-        listeUpgrades.add(new ItemMagasin("Laser", 14659738,14659738,1.12,R.drawable.laser, etatUpgrades[6]));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.ballFil), 2,2,1.07, R.drawable.yarn, etatUpgrades[0]));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.poisson), 72,72,1.15,R.drawable.fish, etatUpgrades[1]));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.cloche), 749,749,1.14,R.drawable.bell, etatUpgrades[2]));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.baton), 9752,9752,1.13,R.drawable.stick, etatUpgrades[3]));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.souris), 123456,123456,1.13,R.drawable.souris, etatUpgrades[4]));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.roomba), 1358016,1358016,1.12,R.drawable.roomba, etatUpgrades[5]));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.laser), 14659738,14659738,1.12,R.drawable.laser, etatUpgrades[6]));
 
         mainListView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new MagasinAdapter(MagasinActivity.this, listeUpgrades);
@@ -77,6 +75,18 @@ public class MagasinActivity extends AppCompatActivity {
                 argent.setText("" + m_argent);
             }
         }, 0, 1000);
+
+
+        ImageView buttonshop = findViewById(R.id.Clicker_main);
+        buttonshop.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                intent.putExtra("pointage", m_argent);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+
+        });
     }
 
     @Override
@@ -89,8 +99,8 @@ public class MagasinActivity extends AppCompatActivity {
 
     public class MagasinAdapter extends RecyclerView.Adapter<MagasinAdapter.MagasinViewHolder>
     {
-        private Context contexte;
-        private ArrayList<ItemMagasin> listeUpgrades;
+        private final Context contexte;
+        private final ArrayList<ItemMagasin> listeUpgrades;
 
         public MagasinAdapter(Context contexte, ArrayList<ItemMagasin> listeUpgrades)
         {
@@ -122,7 +132,7 @@ public class MagasinActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(),"Pas assez d'argent", Toast.LENGTH_SHORT).show();;
+                        Toast.makeText(getApplicationContext(),"Pas assez d'argent", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
