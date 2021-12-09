@@ -27,9 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private int m_clickValue;
     private int[] etatUpgrades;
     private String FNAME;
+    private int multPermenant;
+    private int pointPerm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         FNAME = "sauvegardeClicker.txt";
 
@@ -69,11 +72,17 @@ public class MainActivity extends AppCompatActivity {
         m_clickValue = 1;
         m_multiplier = 1;
         buttonSwitch(R.layout.activity_main);
-        ImageView buttonMain = findViewById(R.id.Clicker_main);
 
-        buttonMain.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                buttonSwitch(R.layout.activity_main);
+        ImageView buttonshopPerm = findViewById(R.id.specialShop_main);
+        buttonshopPerm.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getApplicationContext(), MagasinPermenant.class);
+                intent.putExtra("argent", m_argent);
+                intent.putExtra("listeUpgrades", etatUpgrades);
+                intent.putExtra("MultiplicateurPermenant", multPermenant);
+                intent.putExtra("PointPermenant", 0);
+                startActivityForResult(intent, 2);
             }
 
         });
@@ -84,6 +93,11 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 int m_multiplier= etatUpgrades[0]+etatUpgrades[1]*20+etatUpgrades[2]*90+etatUpgrades[3]*360;
                 m_multiplier+= etatUpgrades[4]*2160+etatUpgrades[5]*18100+etatUpgrades[6]*162885;
+                if(m_multiplier!=0 && multPermenant!=0){
+                    m_multiplier = m_multiplier*multPermenant;
+                }else if(multPermenant!= 0){
+                    m_multiplier = multPermenant;
+                }
                 m_argent += m_multiplier;
                 argent.setText("" + m_argent);
             }
@@ -114,6 +128,11 @@ public class MainActivity extends AppCompatActivity {
                     m_argent = points;
                     ((TextView) findViewById(R.id.numberMoney)).setText(String.valueOf(points));
                     etatUpgrades = data.getIntArrayExtra("listeUpgrades");
+                    int multiplic = data.getIntExtra("MultiplicateurPermenant", 0);
+                    multPermenant = multiplic;
+                    pointPerm = data.getIntExtra("PointPermenant",0);
+
+
                     break;
                 default:
                     break;
