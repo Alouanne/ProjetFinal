@@ -32,6 +32,8 @@ public class MagasinPermenant extends AppCompatActivity {
     private int[] etatUpgrades;
     private int[] etatPermenant;
     private int pointPerm;
+    private int multiplier;
+    private int prestige;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,24 +41,43 @@ public class MagasinPermenant extends AppCompatActivity {
         setContentView(R.layout.reset);
         intent = getIntent();
 
-        etatUpgrades = intent.getIntArrayExtra("listeUpgrades");
-        m_argent = intent.getIntExtra("argent",0);
-        etatPermenant = intent.getIntArrayExtra("MultiplicateurPermenant");
-        pointPerm = intent.getIntExtra("PointPermenant", 0);
-        etatUpgrades = intent.getIntArrayExtra("listeUpgrades");
+        etatUpgrades = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES);
+        intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+        m_argent = intent.getIntExtra(MainActivity.POINTAGE,0);
+        intent.putExtra(MainActivity.POINTAGE, m_argent);
+        etatPermenant = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES_PERMANENT);
+        intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+        pointPerm = intent.getIntExtra(MainActivity.POINTS_PERMANENTS, 0);
+        intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
+        multiplier = intent.getIntExtra(MainActivity.MULTIPLIER, 0);
+        intent.putExtra(MainActivity.MULTIPLIER, multiplier);
 
-        double  prestige = 0;
+        System.out.println("multiplier : " + multiplier);
+        prestige = 0;
         int rer;
         for (int i = 0; i < etatUpgrades.length; i++) {
             rer =etatUpgrades[i];
-            do {
-                prestige += 100 * Math.pow(rer,2);
-            }while(rer >50);
+            prestige += 100 * Math.pow(rer,2);
         }
+
         TextView point =findViewById(R.id.PointReset);
         point.setText(pointPerm + " prestige");
 
         Button butonReset  = findViewById(R.id.ResetB);
+        butonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pointPerm += prestige;
+                m_argent = 0;
+                for (int i = 0; i < etatUpgrades.length; i++)
+                {
+                    etatUpgrades[i] = 0;
+                }
+                multiplier = 0;
+                onBackPressed();
+            }
+        });
+
         butonReset.setText(prestige+"asd");
         listeUpgrades = new ArrayList<>();
         listeUpgrades.add(new ItemObjPerm(1000, 1.5, "Multiplier le revenue des balle de laine par 3", 0,3, "Les balls de laine, c'est parfait", 0));
@@ -73,28 +94,21 @@ public class MagasinPermenant extends AppCompatActivity {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                int m_multiplier= etatUpgrades[0]*etatPermenant[0]+etatUpgrades[1]*etatPermenant[1]+etatUpgrades[2]*etatPermenant[2]+etatUpgrades[3]*etatPermenant[3];
-                m_multiplier+= etatUpgrades[4]*etatPermenant[7]+etatUpgrades[5]*etatPermenant[5]+etatUpgrades[6]*etatPermenant[6];
-                m_argent += m_multiplier;
                 double  prestige = 0;
                 int rer;
                 for (int i = 0; i < etatUpgrades.length; i++) {
                     rer =etatUpgrades[i];
-                    do {
                         prestige += 100 * Math.pow(rer,2);
-                    }while(rer >50);
                 }
                 Button butonReset  = findViewById(R.id.ResetB);
                 butonReset.setText(""+prestige);
             }
         }, 0, 1000);
+
         ImageView buttonmain = findViewById(R.id.Clicker_main);
         buttonmain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                intent.putExtra("pointage", m_argent);
-                intent.putExtra("MultiplicateurPermenant", etatPermenant);
-                intent.putExtra("pointPerm", pointPerm);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -105,10 +119,11 @@ public class MagasinPermenant extends AppCompatActivity {
             public void onClick(View v)
             {
                 Intent intente = new Intent(getApplicationContext(), MagasinActivity.class);
-                intente.putExtra("pointage", m_argent);
-                intente.putExtra("MultiplicateurPermenant", etatPermenant);
-                intente.putExtra("pointPerm", pointPerm);
-                intente.putExtra("listeUpgrades", etatUpgrades);
+                intente.putExtra(MainActivity.POINTAGE, m_argent);
+                intente.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+                intente.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
+                intente.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+                intente.putExtra(MainActivity.MULTIPLIER,multiplier);
                 startActivityForResult(intente, 2);
 
             }
@@ -193,10 +208,11 @@ public class MagasinPermenant extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        intent.putExtra("pointage", m_argent);
-        intent.putExtra("MultiplicateurPermenant", etatPermenant);
-        intent.putExtra("pointPerm", pointPerm);
-        intent.putExtra("listeUpgrades", etatUpgrades);
+        intent.putExtra(MainActivity.POINTAGE, m_argent);
+        intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+        intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
+        intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+        intent.putExtra(MainActivity.MULTIPLIER, multiplier);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -206,7 +222,7 @@ public class MagasinPermenant extends AppCompatActivity {
     {
         FileOutputStream fos;
         try {
-            fos = openFileOutput("sauvegardeClicker.txt", Context.MODE_PRIVATE);
+            fos = openFileOutput(MainActivity.FNAME, Context.MODE_PRIVATE);
             fos.write(String.valueOf(m_argent).getBytes());
 
             for (int i = 0; i < etatUpgrades.length; i++)
@@ -215,15 +231,21 @@ public class MagasinPermenant extends AppCompatActivity {
                 System.out.println(etatUpgrades[i]);
                 fos.write(String.valueOf(etatUpgrades[i]).getBytes());
             }
+            for (int i = 0; i < etatPermenant.length; i++)
+            {
+                fos.write(" ".getBytes());
+                System.out.println(etatPermenant[i]);
+                fos.write(String.valueOf(etatPermenant[i]).getBytes());
+            }
+            fos.write(" ".getBytes());
+            fos.write(String.valueOf(pointPerm).getBytes());
             fos.write(" buffer".getBytes());
             fos.close();
-            System.out.println("rerussite");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("fin");
 
         super.onStop();
     }
@@ -235,12 +257,11 @@ public class MagasinPermenant extends AppCompatActivity {
         if (data != null) {
             switch (resultCode) {
                 case RESULT_OK:
-                    int points = data.getIntExtra("pointage", 100);
-                    m_argent = points;
-                    etatUpgrades = data.getIntArrayExtra("listeUpgrades");
-                    etatPermenant = data.getIntArrayExtra("MultiplicateurPermenant");
-                    pointPerm = data.getIntExtra("pointPerm",0);
-
+                    m_argent = data.getIntExtra(MainActivity.POINTAGE, 100);
+                    etatUpgrades = data.getIntArrayExtra(MainActivity.LISTE_UPGRADES);
+                    etatPermenant = data.getIntArrayExtra(MainActivity.LISTE_UPGRADES_PERMANENT);
+                    pointPerm = data.getIntExtra(MainActivity.POINTS_PERMANENTS,0);
+                    multiplier = data.getIntExtra(MainActivity.MULTIPLIER,0);
 
                     break;
                 default:
