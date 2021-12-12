@@ -4,17 +4,28 @@ public class ItemObjPerm {
     int m_cout;
     double m_multiplieur;
     String m_explication;
+    String m_titre;
     int nombre;
     int ajout;
     int cout_original;
-
-    public ItemObjPerm(int m_cout, double m_multiplieur, String m_explication, int nombre, int ajout) {
+    int valeur_changer;
+    public ItemObjPerm(int m_cout, double m_multiplieur, String m_explication, int nombre, int ajout, String titre, int valeur ) {
         this.m_cout = m_cout;
         this.m_multiplieur = m_multiplieur;
         this.m_explication = m_explication;
         this.nombre = nombre;
         cout_original = m_cout;
         this.ajout = ajout;
+        m_titre = titre;
+        valeur_changer = valeur;
+    }
+
+    public int getValeur_changer() {
+        return valeur_changer;
+    }
+
+    public String getM_titre() {
+        return m_titre;
     }
 
     public int getAjout() {

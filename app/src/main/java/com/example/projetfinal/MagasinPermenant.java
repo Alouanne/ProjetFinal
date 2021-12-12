@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +30,7 @@ public class MagasinPermenant extends AppCompatActivity {
     private MagasinAddapter adapter;
     private int m_argent;
     private int[] etatUpgrades;
-    private int multiplicateurPerm;
+    private int[] etatPermenant;
     private int pointPerm;
 
     @Override
@@ -42,30 +41,76 @@ public class MagasinPermenant extends AppCompatActivity {
 
         etatUpgrades = intent.getIntArrayExtra("listeUpgrades");
         m_argent = intent.getIntExtra("argent",0);
-        multiplicateurPerm = intent.getIntExtra("MultiplicateurPermenant", 0);
+        etatPermenant = intent.getIntArrayExtra("MultiplicateurPermenant");
         pointPerm = intent.getIntExtra("PointPermenant", 0);
-        intent.putExtra("listeUpgrades", etatUpgrades);
+        etatUpgrades = intent.getIntArrayExtra("listeUpgrades");
 
+        double  prestige = 0;
+        int rer;
+        for (int i = 0; i < etatUpgrades.length; i++) {
+            rer =etatUpgrades[i];
+            do {
+                prestige += 100 * Math.pow(rer,2);
+            }while(rer >50);
+        }
+        TextView point =findViewById(R.id.PointReset);
+        point.setText(pointPerm + " prestige");
+
+        Button butonReset  = findViewById(R.id.ResetB);
+        butonReset.setText(prestige+"asd");
         listeUpgrades = new ArrayList<>();
-        listeUpgrades.add(new ItemObjPerm(1000, 1.5, "Multiplier le revenue des par 3", 0,3));
-        listeUpgrades.add(new ItemObjPerm(1000, 1.5, "Multiplier le revenue des par 3", 0,3));
-        listeUpgrades.add(new ItemObjPerm(1000, 1.5, "Multiplier le revenue des par 3", 0,3));
+        listeUpgrades.add(new ItemObjPerm(1000, 1.5, "Multiplier le revenue des balle de laine par 3", 0,3, "Les balls de laine, c'est parfait", 0));
+        listeUpgrades.add(new ItemObjPerm(10000, 1.5, "Multiplier le revenue des par 3", 0,3, "",1));
+        listeUpgrades.add(new ItemObjPerm(10000, 1.5, "Multiplier le revenue des par 3", 0,3, "",2));
 
 
         mainListView = (RecyclerView) findViewById(R.id.RecucleView);
         adapter = new MagasinAddapter(MagasinPermenant.this, listeUpgrades);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mainListView.setLayoutManager(layoutManager);
         mainListView.setAdapter(adapter);
 
-
-        ImageView buttonshop = findViewById(R.id.Clicker_main);
-        buttonshop.setOnClickListener(new View.OnClickListener() {
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                int m_multiplier= etatUpgrades[0]*etatPermenant[0]+etatUpgrades[1]*etatPermenant[1]+etatUpgrades[2]*etatPermenant[2]+etatUpgrades[3]*etatPermenant[3];
+                m_multiplier+= etatUpgrades[4]*etatPermenant[7]+etatUpgrades[5]*etatPermenant[5]+etatUpgrades[6]*etatPermenant[6];
+                m_argent += m_multiplier;
+                double  prestige = 0;
+                int rer;
+                for (int i = 0; i < etatUpgrades.length; i++) {
+                    rer =etatUpgrades[i];
+                    do {
+                        prestige += 100 * Math.pow(rer,2);
+                    }while(rer >50);
+                }
+                Button butonReset  = findViewById(R.id.ResetB);
+                butonReset.setText(""+prestige);
+            }
+        }, 0, 1000);
+        ImageView buttonmain = findViewById(R.id.Clicker_main);
+        buttonmain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
                 intent.putExtra("pointage", m_argent);
+                intent.putExtra("MultiplicateurPermenant", etatPermenant);
+                intent.putExtra("pointPerm", pointPerm);
                 setResult(RESULT_OK, intent);
                 finish();
+            }
+
+        });
+        ImageView buttonshop = findViewById(R.id.Shop_main);
+        buttonshop.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                Intent intente = new Intent(getApplicationContext(), MagasinActivity.class);
+                intente.putExtra("pointage", m_argent);
+                intente.putExtra("MultiplicateurPermenant", etatPermenant);
+                intente.putExtra("pointPerm", pointPerm);
+                intente.putExtra("listeUpgrades", etatUpgrades);
+                startActivityForResult(intente, 2);
+
             }
 
         });
@@ -79,6 +124,7 @@ public class MagasinPermenant extends AppCompatActivity {
             {
                 this.contexte = contexte;
                 this.listeUpgrades = listeUpgrades;
+
             }
 
             @Override
@@ -86,6 +132,7 @@ public class MagasinPermenant extends AppCompatActivity {
             {
                 View view = LayoutInflater.from(contexte).inflate(R.layout.row_reset, parent, false);
                 final MagasinAddapter.MagasinViewHolder magasinViewHolder = new MagasinAddapter.MagasinViewHolder(view);
+                System.out.println(listeUpgrades.get(0).getM_explication());
 
 
                 view.findViewById(R.id.buttonReset).setOnClickListener(new View.OnClickListener()
@@ -93,17 +140,25 @@ public class MagasinPermenant extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         int position = magasinViewHolder.getAdapterPosition();
-                        pointPerm -= listeUpgrades.get(position).getM_cout();
-                        if(multiplicateurPerm!=0){
-                            multiplicateurPerm*=listeUpgrades.get(position).getAjout();
+                        if (pointPerm >= listeUpgrades.get(position).getM_cout()) {
+
+                            pointPerm -= listeUpgrades.get(position).getM_cout();
+                            if (etatPermenant[listeUpgrades.get(position).getValeur_changer()] != 0) {
+                                etatPermenant[listeUpgrades.get(position).getValeur_changer()] *= listeUpgrades.get(position).getAjout();
+                            } else {
+                                etatPermenant[listeUpgrades.get(position).getValeur_changer()] = listeUpgrades.get(position).getAjout();
+                            }
+                            listeUpgrades.get(position).addNumber();
+                            Button buttonAchat = (Button) view.findViewById(R.id.buttonReset);
+                            buttonAchat.setText(listeUpgrades.get(position).getM_cout() + "");
+                            TextView point =findViewById(R.id.PointReset);
+                            point.setText(pointPerm + " prestige");
+
                         }else{
-                            multiplicateurPerm = listeUpgrades.get(position).getAjout();
-                        }
-                        listeUpgrades.get(position).addNumber();
-
-
-
+                            Toast.makeText(getApplicationContext(),"Pas assez de prestige", Toast.LENGTH_SHORT).show();
                     }
+
+                }
                 });
                 return magasinViewHolder;
             }
@@ -111,24 +166,26 @@ public class MagasinPermenant extends AppCompatActivity {
             @Override
             public void onBindViewHolder(final MagasinAddapter.MagasinViewHolder holder, int position)
             {
-                final ItemObjPerm itemMagasin = listeUpgrades.get(position);
+                ItemObjPerm itemMagasin = listeUpgrades.get(position);
                 holder.textViewUpgrade.setText(itemMagasin.getM_explication());
                 holder.buttonAchat.setText(String.valueOf(itemMagasin.getM_cout()));
+                holder.textViewTitre.setText(itemMagasin.getM_titre());
             }
 
             @Override
-            public int getItemCount() {
-                return 0;
-            }
-            class MagasinViewHolder extends RecyclerView.ViewHolder
+            public int getItemCount()
+            {
+                return listeUpgrades.size();
+            }            class MagasinViewHolder extends RecyclerView.ViewHolder
             {
                 public TextView textViewUpgrade;
                 public Button buttonAchat;
-
+                public TextView textViewTitre;
                 public MagasinViewHolder(View view)
                 {
                     super(view);
                     textViewUpgrade =(TextView)view.findViewById(R.id.infoReset);
+                    textViewTitre =(TextView)view.findViewById(R.id.NomSpecial);
                     buttonAchat = (Button) view.findViewById(R.id.buttonReset);
                 }
             }
@@ -137,7 +194,9 @@ public class MagasinPermenant extends AppCompatActivity {
     public void onBackPressed()
     {
         intent.putExtra("pointage", m_argent);
-        intent.putExtra("MultiplicateurPermenant", multiplicateurPerm);
+        intent.putExtra("MultiplicateurPermenant", etatPermenant);
+        intent.putExtra("pointPerm", pointPerm);
+        intent.putExtra("listeUpgrades", etatUpgrades);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -168,7 +227,28 @@ public class MagasinPermenant extends AppCompatActivity {
 
         super.onStop();
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode,resultCode,data);
 
+        if (data != null) {
+            switch (resultCode) {
+                case RESULT_OK:
+                    int points = data.getIntExtra("pointage", 100);
+                    m_argent = points;
+                    etatUpgrades = data.getIntArrayExtra("listeUpgrades");
+                    etatPermenant = data.getIntArrayExtra("MultiplicateurPermenant");
+                    pointPerm = data.getIntExtra("pointPerm",0);
+
+
+                    break;
+                default:
+                    break;
+            }
+        }
+        onBackPressed();
+    }
 }
 
 

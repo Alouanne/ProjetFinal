@@ -31,6 +31,8 @@ public class MagasinActivity extends AppCompatActivity {
     private int m_argent;
     private int[] etatUpgrades;
     private Intent intent;
+    private int[] etatPermenant;
+    private int pointPerm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,10 @@ public class MagasinActivity extends AppCompatActivity {
         etatUpgrades = intent.getIntArrayExtra("listeUpgrades");
         m_argent = intent.getIntExtra("argent",0);
         intent.putExtra("listeUpgrades", etatUpgrades);
+        etatPermenant = intent.getIntArrayExtra("MultiplicateurPermenant");
         ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));
+
+
 
         listeUpgrades = new ArrayList<>();
         listeUpgrades.add(new ItemMagasin(getString(R.string.ballFil), 2,2,1.07, R.drawable.yarn, etatUpgrades[0]));
@@ -68,20 +73,37 @@ public class MagasinActivity extends AppCompatActivity {
                 finish();
             }
         });
+        ImageView buttonshop = findViewById(R.id.specialShop_main);
+        buttonshop.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                Intent intente = new Intent(getApplicationContext(), MagasinPermenant.class);
+                intente.putExtra("pointage", m_argent);
+                intente.putExtra("MultiplicateurPermenant", etatPermenant);
+                intente.putExtra("pointPerm", pointPerm);
+                intente.putExtra("listeUpgrades", etatUpgrades);
+                startActivityForResult(intente, 2);
 
+            }
+
+        });
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                int m_multiplier= etatUpgrades[0]+etatUpgrades[1]*20+etatUpgrades[2]*90+etatUpgrades[3]*360;
-                m_multiplier+= etatUpgrades[4]*2160+etatUpgrades[5]*18100+etatUpgrades[6]*162885;
+                int m_multiplier= etatUpgrades[0]*etatPermenant[0]+etatUpgrades[1]*etatPermenant[1]+etatUpgrades[2]*etatPermenant[2]+etatUpgrades[3]*etatPermenant[3];
+                m_multiplier+= etatUpgrades[4]*etatPermenant[7]+etatUpgrades[5]*etatPermenant[5]+etatUpgrades[6]*etatPermenant[6];
                 m_argent += m_multiplier;
                 argent.setText("" + m_argent);
+
+
+
             }
         }, 0, 1000);
 
 
-        ImageView buttonshop = findViewById(R.id.Clicker_main);
-        buttonshop.setOnClickListener(new View.OnClickListener() {
+
+        ImageView buttonmain = findViewById(R.id.Clicker_main);
+        buttonmain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
                 intent.putExtra("pointage", m_argent);
@@ -90,12 +112,16 @@ public class MagasinActivity extends AppCompatActivity {
             }
 
         });
+
     }
 
     @Override
     public void onBackPressed()
     {
         intent.putExtra("pointage", m_argent);
+        intent.putExtra("MultiplicateurPermenant", etatPermenant);
+        intent.putExtra("pointPerm", pointPerm);
+        intent.putExtra("listeUpgrades", etatUpgrades);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -205,5 +231,26 @@ public class MagasinActivity extends AppCompatActivity {
 
         super.onStop();
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode,resultCode,data);
 
+        if (data != null) {
+            switch (resultCode) {
+                case RESULT_OK:
+                    int points = data.getIntExtra("pointage", 100);
+                    m_argent = points;
+                    etatUpgrades = data.getIntArrayExtra("listeUpgrades");
+                    etatPermenant = data.getIntArrayExtra("MultiplicateurPermenant");
+                    pointPerm = data.getIntExtra("pointPerm",0);
+
+
+                    break;
+                default:
+                    break;
+            }
+        }
+        onBackPressed();
+    }
 }

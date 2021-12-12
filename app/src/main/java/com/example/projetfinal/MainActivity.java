@@ -23,17 +23,19 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private Integer m_argent;
+    private Intent intent;
     private int m_multiplier;
     private int m_clickValue;
     private int[] etatUpgrades;
     private String FNAME;
-    private int multPermenant;
+    private int[] etatPermenant;
     private int pointPerm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         FNAME = "sauvegardeClicker.txt";
 
         FileInputStream fis;
@@ -56,21 +58,24 @@ public class MainActivity extends AppCompatActivity {
                 etatUpgrades[i-1] = Integer.parseInt(quantite[i]);
 
             }
-
-            m_multiplier= etatUpgrades[0]+etatUpgrades[1]*20+etatUpgrades[2]*90+etatUpgrades[3]*360;
-            m_multiplier+= etatUpgrades[4]*2160+etatUpgrades[5]*18100+etatUpgrades[6]*162885;
+            //Il faut enregistrer etatPermenant et si il existe pas [0] =1, [1]=20, [2] = 90, [3] = 360, [4]=2160, [5] = 18100, [6] = 162885, [7] =1
+            m_multiplier= etatUpgrades[0]*etatPermenant[0]+etatUpgrades[1]*etatPermenant[1]+etatUpgrades[2]*etatPermenant[2]+etatUpgrades[3]*etatPermenant[3];
+            m_multiplier+= etatUpgrades[4]*etatPermenant[7]+etatUpgrades[5]*etatPermenant[5]+etatUpgrades[6]*etatPermenant[6];
+            m_clickValue = etatPermenant[7];
             fis.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(m_argent == null)
+        if(m_argent == null) {
             m_argent = 0;
-        if(etatUpgrades == null)
-            etatUpgrades = new int[] {0,0,0,0,0,0,0};
-        m_clickValue = 1;
-        m_multiplier = 1;
+        }if(etatUpgrades == null) {
+            etatUpgrades = new int[]{0, 0, 0, 0, 0, 0, 0};
+            m_clickValue = 1;
+            m_multiplier = 0;
+        }
+
         buttonSwitch(R.layout.activity_main);
 
         ImageView buttonshopPerm = findViewById(R.id.specialShop_main);
@@ -80,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MagasinPermenant.class);
                 intent.putExtra("argent", m_argent);
                 intent.putExtra("listeUpgrades", etatUpgrades);
-                intent.putExtra("MultiplicateurPermenant", multPermenant);
-                intent.putExtra("PointPermenant", 0);
+                intent.putExtra("MultiplicateurPermenant", etatPermenant);
+                intent.putExtra("pointPerm", pointPerm);
                 startActivityForResult(intent, 2);
             }
 
@@ -91,13 +96,9 @@ public class MainActivity extends AppCompatActivity {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                int m_multiplier= etatUpgrades[0]+etatUpgrades[1]*20+etatUpgrades[2]*90+etatUpgrades[3]*360;
-                m_multiplier+= etatUpgrades[4]*2160+etatUpgrades[5]*18100+etatUpgrades[6]*162885;
-                if(m_multiplier!=0 && multPermenant!=0){
-                    m_multiplier = m_multiplier*multPermenant;
-                }else if(multPermenant!= 0){
-                    m_multiplier = multPermenant;
-                }
+                m_multiplier= etatUpgrades[0]*etatPermenant[0]+etatUpgrades[1]*etatPermenant[1]+etatUpgrades[2]*etatPermenant[2]+etatUpgrades[3]*etatPermenant[3];
+                m_multiplier+= etatUpgrades[4]*etatPermenant[7]+etatUpgrades[5]*etatPermenant[5]+etatUpgrades[6]*etatPermenant[6];
+
                 m_argent += m_multiplier;
                 argent.setText("" + m_argent);
             }
@@ -106,9 +107,10 @@ public class MainActivity extends AppCompatActivity {
         buttonshop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                Intent intent = new Intent(getApplicationContext(), MagasinActivity.class);
+                intent = new Intent(getApplicationContext(), MagasinActivity.class);
                 intent.putExtra("argent", m_argent);
                 intent.putExtra("listeUpgrades", etatUpgrades);
+                intent.putExtra("pointPerm",pointPerm);
                 startActivityForResult(intent, 1);
             }
 
@@ -128,9 +130,8 @@ public class MainActivity extends AppCompatActivity {
                     m_argent = points;
                     ((TextView) findViewById(R.id.numberMoney)).setText(String.valueOf(points));
                     etatUpgrades = data.getIntArrayExtra("listeUpgrades");
-                    int multiplic = data.getIntExtra("MultiplicateurPermenant", 0);
-                    multPermenant = multiplic;
-                    pointPerm = data.getIntExtra("PointPermenant",0);
+                    etatPermenant = data.getIntArrayExtra("MultiplicateurPermenant");
+                    pointPerm = data.getIntExtra("pointPerm",0);
 
 
                     break;
@@ -148,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
             argent.setText("" + m_argent);
             clicker.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
                     m_argent +=  m_clickValue;
                     argent.setText("" + m_argent);
                 }
@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStop()
     {
+        //Aléanne: il faut enregistrer les prestige(ou point permenant), les modificateur permenant et la valeur de click
         FileOutputStream fos;
         try {
             fos = openFileOutput(FNAME, Context.MODE_PRIVATE);
