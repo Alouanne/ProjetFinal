@@ -2,6 +2,7 @@ package com.example.projetfinal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,12 +32,15 @@ public class MainActivity extends AppCompatActivity {
     private String FNAME;
     private int multPermenant;
     private int pointPerm;
+    private int nbClickSecondes;
+    public ImageView catClicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         FNAME = "sauvegardeClicker.txt";
+        nbClickSecondes = 0;
+        setContentView(R.layout.activity_main);
 
         FileInputStream fis;
         try {
@@ -65,15 +71,29 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         if(m_argent == null)
             m_argent = 0;
         if(etatUpgrades == null)
             etatUpgrades = new int[] {0,0,0,0,0,0,0};
         m_clickValue = 1;
         m_multiplier = 1;
-        buttonSwitch(R.layout.activity_main);
+
+        ImageView clicker = findViewById(R.id.Clicker);
+        TextView argent = findViewById(R.id.numberMoney);
+        argent.setText("" + m_argent);
+        clicker.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                m_argent +=  m_clickValue;
+                argent.setText("" + m_argent);
+                nbClickSecondes = nbClickSecondes + 1;
+            }
+        });
 
         ImageView buttonshopPerm = findViewById(R.id.specialShop_main);
+        catClicker = findViewById(R.id.Clicker);
+        catClicker.setBackgroundResource(R.drawable.clicker_ripple);
         buttonshopPerm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
@@ -86,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        TextView argent = findViewById(R.id.numberMoney);
 
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -102,6 +121,14 @@ public class MainActivity extends AppCompatActivity {
                 argent.setText("" + m_argent);
             }
         }, 0, 1000);
+
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                updateBackground();
+            }
+        }, 0000, 1000);
+
         ImageView buttonshop = findViewById(R.id.Shop_main);
         buttonshop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -112,6 +139,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
 
+        });
+
+    }
+
+    public void updateBackground()
+    {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                if (nbClickSecondes < 3)
+                {
+                    catClicker.setBackgroundResource(R.drawable.clicker_ripple);
+                }
+                else
+                {
+                    catClicker.setBackgroundResource(R.drawable.clicker_ripple_fire);
+                }
+                nbClickSecondes = 0;
+            }
         });
 
     }
@@ -137,22 +185,6 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     break;
             }
-        }
-    }
-
-    public void buttonSwitch(int v) {
-        setContentView(v);
-        if(v == R.layout.activity_main){
-            ImageView clicker = findViewById(R.id.Clicker);
-            TextView argent = findViewById(R.id.numberMoney);
-            argent.setText("" + m_argent);
-            clicker.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-
-                    m_argent +=  m_clickValue;
-                    argent.setText("" + m_argent);
-                }
-            });
         }
     }
 

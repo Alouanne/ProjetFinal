@@ -205,5 +205,4 @@ public class MagasinActivity extends AppCompatActivity {
 
         super.onStop();
     }
-
 }

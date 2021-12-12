@@ -20,8 +20,9 @@
             android:id="@+id/Clicker"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:srcCompat="@drawable/main_image"
-            android:layout_weight="10"/>
+            android:layout_weight="10"
+            android:background="@drawable/clicker_ripple"
+            android:backgroundTintMode="multiply" />
         android:clickable="true"
         android:focusable="true"
 
