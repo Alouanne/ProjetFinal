@@ -46,8 +46,6 @@ public class MagasinActivity extends AppCompatActivity {
         etatPermenant = intent.getIntArrayExtra("MultiplicateurPermenant");
         ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));
 
-
-
         listeUpgrades = new ArrayList<>();
         listeUpgrades.add(new ItemMagasin(getString(R.string.ballFil), 2,2,1.07, R.drawable.yarn, etatUpgrades[0]));
         listeUpgrades.add(new ItemMagasin(getString(R.string.poisson), 72,72,1.15,R.drawable.fish, etatUpgrades[1]));
@@ -94,9 +92,6 @@ public class MagasinActivity extends AppCompatActivity {
                 m_multiplier+= etatUpgrades[4]*etatPermenant[7]+etatUpgrades[5]*etatPermenant[5]+etatUpgrades[6]*etatPermenant[6];
                 m_argent += m_multiplier;
                 argent.setText("" + m_argent);
-
-
-
             }
         }, 0, 1000);
 
@@ -112,7 +107,6 @@ public class MagasinActivity extends AppCompatActivity {
             }
 
         });
-
     }
 
     @Override

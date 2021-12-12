@@ -30,13 +30,16 @@ public class MainActivity extends AppCompatActivity {
     private String FNAME;
     private int[] etatPermenant;
     private int pointPerm;
+    private int nbClickSecondes;
+    public ImageView catClicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         FNAME = "sauvegardeClicker.txt";
+        nbClickSecondes = 0;
+        setContentView(R.layout.activity_main);
 
         FileInputStream fis;
         try {
@@ -68,14 +71,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(m_argent == null) {
+        if(m_argent == null)
             m_argent = 0;
-        }if(etatUpgrades == null) {
-            etatUpgrades = new int[]{0, 0, 0, 0, 0, 0, 0};
-            m_clickValue = 1;
-            m_multiplier = 0;
-        }
-
+        if(etatUpgrades == null)
+            etatUpgrades = new int[] {0,0,0,0,0,0,0};
+        m_clickValue = 1;
+        m_multiplier = 1;
         buttonSwitch(R.layout.activity_main);
 
         ImageView buttonshopPerm = findViewById(R.id.specialShop_main);
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
             argent.setText("" + m_argent);
             clicker.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+
                     m_argent +=  m_clickValue;
                     argent.setText("" + m_argent);
                 }
