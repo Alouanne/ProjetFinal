@@ -44,7 +44,6 @@ public class MagasinActivity extends AppCompatActivity {
         intent = getIntent();
 
         multiplier = intent.getIntExtra(MainActivity.MULTIPLIER, 0);
-        intent.putExtra(MainActivity.MULTIPLIER, multiplier);
         etatUpgrades = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES);
         intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
         etatPermenant = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES_PERMANENT);
@@ -53,7 +52,10 @@ public class MagasinActivity extends AppCompatActivity {
         intent.putExtra(MainActivity.POINTAGE, m_argent);
         pointPerm = intent.getIntExtra(MainActivity.POINTS_PERMANENTS,0);
         intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
-
+        for (int i = 0; i < etatUpgrades.length; i++) {
+            multiplier += etatUpgrades[i]*etatPermenant[i];
+        }
+        intent.putExtra(MainActivity.MULTIPLIER, multiplier);
         ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));
 
         listeUpgrades = new ArrayList<>();
@@ -88,6 +90,10 @@ public class MagasinActivity extends AppCompatActivity {
             {
 //                Intent intente = new Intent(getApplicationContext(), MagasinPermenant.class);
                 intent.putExtra(MainActivity.POINTAGE, m_argent);
+                intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+                intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+                intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+                intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
                 setResult(MainActivity.RESULT_SWITCH_TO_MAGASIN_PERMANENT, intent);
                 finish();
             }
@@ -107,7 +113,11 @@ public class MagasinActivity extends AppCompatActivity {
         buttonmain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                intent.putExtra(MainActivity.POINTAGE,m_argent);
+                intent.putExtra(MainActivity.POINTAGE, m_argent);
+                intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+                intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+                intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+                intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
                 setResult(RESULT_OK, intent);
                 finish();
             }

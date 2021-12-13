@@ -194,6 +194,9 @@ public class MainActivity extends AppCompatActivity {
                         m_multiplier = data.getIntExtra(MainActivity.MULTIPLIER, 0);
                         pointPerm = data.getIntExtra(MainActivity.POINTS_PERMANENTS, 0);
                         System.out.println("multiplier = " + m_multiplier);
+                        for (int i = 0; i < etatUpgrades.length; i++) {
+                            m_multiplier += etatUpgrades[i]*multPermenant[i];
+                        }
                         break;
 
                     case RESULT_SWITCH_TO_MAGASIN:

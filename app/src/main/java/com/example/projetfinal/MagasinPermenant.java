@@ -115,6 +115,11 @@ public class MagasinPermenant extends AppCompatActivity {
         buttonmain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
+                intent.putExtra(MainActivity.POINTAGE, m_argent);
+                intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+                intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+                intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+                intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -124,6 +129,11 @@ public class MagasinPermenant extends AppCompatActivity {
         buttonshop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
+                intent.putExtra(MainActivity.POINTAGE, m_argent);
+                intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+                intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+                intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+                intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
                 setResult(MainActivity.RESULT_SWITCH_TO_MAGASIN, intent);
                 finish();
             }
