@@ -7,6 +7,8 @@ import android.content.Intent;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +39,11 @@ public class MagasinActivity extends AppCompatActivity {
     private int[] etatPermenant;
     private int pointPerm;
     private int multiplier;
+    private double statClicksSecondes;
+    private int statPointTotals;
+    private int statClickTotal;
+    private int statReset;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,10 @@ public class MagasinActivity extends AppCompatActivity {
             multiplier += etatUpgrades[i]*etatPermenant[i];
         }
         intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+        statClicksSecondes = intent.getDoubleExtra(MainActivity.STAT_CLICKS_SECONDES,0);
+        statClickTotal = intent.getIntExtra(MainActivity.STAT_CLICKS_TOTAL, 0);
+        statPointTotals = intent.getIntExtra(MainActivity.STAT_POINTS,0);
+        statReset = intent.getIntExtra(MainActivity.STAT_RESET,0);
         ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));
 
         listeUpgrades = new ArrayList<>();
@@ -74,15 +86,6 @@ public class MagasinActivity extends AppCompatActivity {
         mainListView.setAdapter(adapter);
 
         TextView argent = (TextView) (findViewById(R.id.textViewArgent));
-        argent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent.putExtra("pointage", m_argent);
-                setResult(RESULT_OK, intent);
-                //onActivityResult(1,1, intent);
-                finish();
-            }
-        });
 
         ImageView buttonshop = findViewById(R.id.specialShop_main);
         buttonshop.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +97,10 @@ public class MagasinActivity extends AppCompatActivity {
                 intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
                 intent.putExtra(MainActivity.MULTIPLIER, multiplier);
                 intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
+                intent.putExtra(MainActivity.STAT_CLICKS_SECONDES, statClicksSecondes);
+                intent.putExtra(MainActivity.STAT_CLICKS_TOTAL, statClickTotal);
+                intent.putExtra(MainActivity.STAT_POINTS, statPointTotals);
+                intent.putExtra(MainActivity.STAT_RESET, statReset);
                 setResult(MainActivity.RESULT_SWITCH_TO_MAGASIN_PERMANENT, intent);
                 finish();
             }
@@ -103,6 +110,7 @@ public class MagasinActivity extends AppCompatActivity {
             @Override
             public void run() {
                 m_argent += multiplier;
+                statPointTotals += multiplier;
                 argent.setText("" + m_argent);
             }
         }, 0000, 1000);
@@ -118,6 +126,10 @@ public class MagasinActivity extends AppCompatActivity {
                 intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
                 intent.putExtra(MainActivity.MULTIPLIER, multiplier);
                 intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
+                intent.putExtra(MainActivity.STAT_CLICKS_SECONDES, statClicksSecondes);
+                intent.putExtra(MainActivity.STAT_CLICKS_TOTAL, statClickTotal);
+                intent.putExtra(MainActivity.STAT_POINTS, statPointTotals);
+                intent.putExtra(MainActivity.STAT_RESET, statReset);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -129,6 +141,10 @@ public class MagasinActivity extends AppCompatActivity {
     public void onBackPressed()
     {
         intent.putExtra(MainActivity.POINTAGE,m_argent);
+        intent.putExtra(MainActivity.STAT_CLICKS_SECONDES, statClicksSecondes);
+        intent.putExtra(MainActivity.STAT_CLICKS_TOTAL, statClickTotal);
+        intent.putExtra(MainActivity.STAT_POINTS, statPointTotals);
+        intent.putExtra(MainActivity.STAT_RESET, statReset);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -236,6 +252,14 @@ public class MagasinActivity extends AppCompatActivity {
             }
             fos.write(" ".getBytes());
             fos.write(String.valueOf(pointPerm).getBytes());
+            fos.write(" ".getBytes());
+            fos.write(String.valueOf(statClickTotal).getBytes());
+            fos.write(" ".getBytes());
+            fos.write(String.valueOf(statClicksSecondes).getBytes());
+            fos.write(" ".getBytes());
+            fos.write(String.valueOf(statPointTotals).getBytes());
+            fos.write(" ".getBytes());
+            fos.write(String.valueOf(statReset).getBytes());
             fos.write(" buffer".getBytes());
             fos.close();
         } catch (FileNotFoundException e) {
@@ -267,5 +291,45 @@ public class MagasinActivity extends AppCompatActivity {
             }
         }
         onBackPressed();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_clicker, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.statisitiques:
+                builder = new AlertDialog.Builder(MagasinActivity.this);
+                String s1 = getString(R.string.nbClicks);
+                String s2 = " " + String.valueOf(statClickTotal) +"\n";
+                //s2 = String.format(s2, "%10.3F");
+                String s3 = getString(R.string.nbClicksSecondes);
+                String s4 = " " +String.valueOf(statClicksSecondes) + "\n";
+                String s5 = getString(R.string.nbPoints);
+                String s6 = " " +String.valueOf(statPointTotals) + "\n";
+                String s7 = getString(R.string.nbResets);
+                String s8 = " " +String.valueOf(statReset);
+                String message = s1 + s2 +s3+s4+s5+s6+s7+s8;
+
+                builder.setMessage(message).setTitle("Statistiques");
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                break;
+            case R.id.aPropos:
+                builder = new AlertDialog.Builder(MagasinActivity.this);
+                builder.setMessage("Créateurs:\nJulien Forget\nAléanne Camiré").setTitle("À propos");
+                AlertDialog alertDialog2 = builder.create();
+                alertDialog2.show();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), "Help", Toast.LENGTH_LONG).show();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
