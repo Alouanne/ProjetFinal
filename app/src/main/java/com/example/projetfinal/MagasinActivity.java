@@ -55,7 +55,7 @@ public class MagasinActivity extends AppCompatActivity {
         intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
 
         ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));
-
+        System.out.println(etatUpgrades[0]);
         listeUpgrades = new ArrayList<>();
         listeUpgrades.add(new ItemMagasin(getString(R.string.ballFil), 2,2,1.07, R.drawable.yarn, etatUpgrades[0]));
         listeUpgrades.add(new ItemMagasin(getString(R.string.poisson), 72,72,1.15,R.drawable.fish, etatUpgrades[1]));

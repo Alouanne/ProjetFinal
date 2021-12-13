@@ -18,7 +18,7 @@ public class ItemMagasin
         this.coefficientA = coefficientA;
         this.coefficientB = coefficientB;
         this.idImage = idImage;
-
+        nb = nbAchats;
         for (int i = 0; i < nbAchats; i++)
             updatePrix();
     }

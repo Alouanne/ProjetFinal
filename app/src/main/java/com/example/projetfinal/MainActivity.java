@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         clicker.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                m_argent +=  m_clickValue;
+                m_argent +=  multPermenant[7];
                 argent.setText("" + m_argent);
                 nbClickSecondes = nbClickSecondes + 1;
             }
@@ -126,6 +126,10 @@ public class MainActivity extends AppCompatActivity {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                m_multiplier = 0;
+                for (int i = 0; i < etatUpgrades.length; i++) {
+                    m_multiplier += etatUpgrades[i]*multPermenant[i];
+                }
                 m_argent += m_multiplier;
                 argent.setText("" + m_argent);
             }

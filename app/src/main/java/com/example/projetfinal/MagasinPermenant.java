@@ -61,7 +61,28 @@ public class MagasinPermenant extends AppCompatActivity {
         }
 
         TextView point =findViewById(R.id.PointReset);
-        point.setText(pointPerm + " prestige");
+
+
+
+        listeUpgrades = new ArrayList<>();
+
+        listeUpgrades.add(new ItemObjPerm(10000, 1.5, "Multiplier le clickage par 3", etatPermenant[7], 3, "Les main de Dieu",7));
+        listeUpgrades.add(new ItemObjPerm(10000, 1.5, "Multiplier le revenue des balles de laine par 3", etatPermenant[0], 3, "Les balls de laine, c'est parfait", 0));
+        listeUpgrades.add(new ItemObjPerm(25000, 1.5, "Multiplier le revenue des poissons par 3", etatPermenant[1]/20, 3, "Miam! du poisson",1));
+        listeUpgrades.add(new ItemObjPerm(50000, 1.5, "Multiplier le revenue des cloches par 3", etatPermenant[2]/90, 3, "Ding Ding, c'est un chat",2));
+        listeUpgrades.add(new ItemObjPerm(75000, 1.5, "Multiplier le revenue des batons par 3", etatPermenant[3]/360, 3, "T'es sur que c'est pas un chien",3));
+        listeUpgrades.add(new ItemObjPerm(100000, 1.5, "Multiplier le revenue des souris par 3", etatPermenant[4]/2160, 3, "Un chat sans ça souris, c'est quoi",4));
+        listeUpgrades.add(new ItemObjPerm(125000, 1.5, "Multiplier le revenue des roomba par 3", etatPermenant[5]/18100, 3, "Le divertisement infinie du robot",5));
+        listeUpgrades.add(new ItemObjPerm(150000, 1.5, "Multiplier le revenue des lasers par 3", etatPermenant[6]/162885, 3, "Vader-cat!Vader-cat",6));
+
+
+
+        mainListView = (RecyclerView) findViewById(R.id.RecucleView);
+        adapter = new MagasinAddapter(MagasinPermenant.this, listeUpgrades);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        mainListView.setLayoutManager(layoutManager);
+        mainListView.setAdapter(adapter);
+
 
         Button butonReset  = findViewById(R.id.ResetB);
         butonReset.setOnClickListener(new View.OnClickListener() {
@@ -74,22 +95,16 @@ public class MagasinPermenant extends AppCompatActivity {
                     etatUpgrades[i] = 0;
                 }
                 multiplier = 0;
-                onBackPressed();
+                intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+                if(m_argent == 0 && etatUpgrades[0]==0) {
+                    onBackPressed();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Erreur", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
-
-        butonReset.setText(prestige+"asd");
-        listeUpgrades = new ArrayList<>();
-        listeUpgrades.add(new ItemObjPerm(1000, 1.5, "Multiplier le revenue des balle de laine par 3", 0,3, "Les balls de laine, c'est parfait", 0));
-        listeUpgrades.add(new ItemObjPerm(10000, 1.5, "Multiplier le revenue des par 3", 0,3, "",1));
-        listeUpgrades.add(new ItemObjPerm(10000, 1.5, "Multiplier le revenue des par 3", 0,3, "",2));
-
-
-        mainListView = (RecyclerView) findViewById(R.id.RecucleView);
-        adapter = new MagasinAddapter(MagasinPermenant.this, listeUpgrades);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        mainListView.setLayoutManager(layoutManager);
-        mainListView.setAdapter(adapter);
+        point.setText(pointPerm + " prestige");
 
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -102,6 +117,11 @@ public class MagasinPermenant extends AppCompatActivity {
                 }
                 Button butonReset  = findViewById(R.id.ResetB);
                 butonReset.setText(""+prestige);
+                multiplier = 0;
+                for (int i = 0; i < etatUpgrades.length; i++) {
+                    multiplier += etatUpgrades[i]*etatPermenant[i];
+                }
+                m_argent += multiplier;
             }
         }, 0, 1000);
 
@@ -158,16 +178,13 @@ public class MagasinPermenant extends AppCompatActivity {
                         if (pointPerm >= listeUpgrades.get(position).getM_cout()) {
 
                             pointPerm -= listeUpgrades.get(position).getM_cout();
-                            if (etatPermenant[listeUpgrades.get(position).getValeur_changer()] != 0) {
-                                etatPermenant[listeUpgrades.get(position).getValeur_changer()] *= listeUpgrades.get(position).getAjout();
-                            } else {
-                                etatPermenant[listeUpgrades.get(position).getValeur_changer()] = listeUpgrades.get(position).getAjout();
-                            }
+                            etatPermenant[listeUpgrades.get(position).getValeur_changer()] *= listeUpgrades.get(position).getAjout();
                             listeUpgrades.get(position).addNumber();
                             Button buttonAchat = (Button) view.findViewById(R.id.buttonReset);
                             buttonAchat.setText(listeUpgrades.get(position).getM_cout() + "");
                             TextView point =findViewById(R.id.PointReset);
                             point.setText(pointPerm + " prestige");
+                            intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
 
                         }else{
                             Toast.makeText(getApplicationContext(),"Pas assez de prestige", Toast.LENGTH_SHORT).show();

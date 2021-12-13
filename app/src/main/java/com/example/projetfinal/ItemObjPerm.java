@@ -18,6 +18,10 @@ public class ItemObjPerm {
         this.ajout = ajout;
         m_titre = titre;
         valeur_changer = valeur;
+        nombre--;
+        if(nombre!=0) {
+            this.m_cout = (int) ((nombre + 2) * (cout_original * Math.pow(m_multiplieur, nombre)));
+        }
     }
 
     public int getValeur_changer() {
