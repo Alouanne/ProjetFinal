@@ -52,7 +52,6 @@ public class MagasinPermenant extends AppCompatActivity {
         multiplier = intent.getIntExtra(MainActivity.MULTIPLIER, 0);
         intent.putExtra(MainActivity.MULTIPLIER, multiplier);
 
-        System.out.println("multiplier : " + multiplier);
         prestige = 0;
         int rer;
         for (int i = 0; i < etatUpgrades.length; i++) {
@@ -74,7 +73,14 @@ public class MagasinPermenant extends AppCompatActivity {
                     etatUpgrades[i] = 0;
                 }
                 multiplier = 0;
-                onBackPressed();
+                intent.putExtra(MainActivity.POINTAGE, m_argent);
+                intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+                intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
+                intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+                intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+                setResult(RESULT_OK, intent);
+                System.out.println("multiplier = " + multiplier);
+                finish();
             }
         });
 
@@ -118,14 +124,8 @@ public class MagasinPermenant extends AppCompatActivity {
         buttonshop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                Intent intente = new Intent(getApplicationContext(), MagasinActivity.class);
-                intente.putExtra(MainActivity.POINTAGE, m_argent);
-                intente.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
-                intente.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
-                intente.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
-                intente.putExtra(MainActivity.MULTIPLIER,multiplier);
-                startActivityForResult(intente, 2);
-
+                setResult(MainActivity.RESULT_SWITCH_TO_MAGASIN, intent);
+                finish();
             }
 
         });
@@ -147,7 +147,6 @@ public class MagasinPermenant extends AppCompatActivity {
             {
                 View view = LayoutInflater.from(contexte).inflate(R.layout.row_reset, parent, false);
                 final MagasinAddapter.MagasinViewHolder magasinViewHolder = new MagasinAddapter.MagasinViewHolder(view);
-                System.out.println(listeUpgrades.get(0).getM_explication());
 
 
                 view.findViewById(R.id.buttonReset).setOnClickListener(new View.OnClickListener()
@@ -228,13 +227,11 @@ public class MagasinPermenant extends AppCompatActivity {
             for (int i = 0; i < etatUpgrades.length; i++)
             {
                 fos.write(" ".getBytes());
-                System.out.println(etatUpgrades[i]);
                 fos.write(String.valueOf(etatUpgrades[i]).getBytes());
             }
             for (int i = 0; i < etatPermenant.length; i++)
             {
                 fos.write(" ".getBytes());
-                System.out.println(etatPermenant[i]);
                 fos.write(String.valueOf(etatPermenant[i]).getBytes());
             }
             fos.write(" ".getBytes());
@@ -246,6 +243,7 @@ public class MagasinPermenant extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("closing Magasin Permanent");
 
         super.onStop();
     }

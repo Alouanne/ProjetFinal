@@ -86,14 +86,10 @@ public class MagasinActivity extends AppCompatActivity {
         buttonshop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                Intent intente = new Intent(getApplicationContext(), MagasinPermenant.class);
-                intente.putExtra(MainActivity.POINTAGE, m_argent);
-                intente.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
-                intente.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
-                intente.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
-                intente.putExtra(MainActivity.MULTIPLIER, multiplier);
-                startActivityForResult(intente, 2);
-
+//                Intent intente = new Intent(getApplicationContext(), MagasinPermenant.class);
+                intent.putExtra(MainActivity.POINTAGE, m_argent);
+                setResult(MainActivity.RESULT_SWITCH_TO_MAGASIN_PERMANENT, intent);
+                finish();
             }
 
         });
@@ -221,13 +217,11 @@ public class MagasinActivity extends AppCompatActivity {
             for (int i = 0; i < etatUpgrades.length; i++)
             {
                 fos.write(" ".getBytes());
-                System.out.println(etatUpgrades[i]);
                 fos.write(String.valueOf(etatUpgrades[i]).getBytes());
             }
             for (int i = 0; i < etatPermenant.length; i++)
             {
                 fos.write(" ".getBytes());
-                System.out.println(etatPermenant[i]);
                 fos.write(String.valueOf(etatPermenant[i]).getBytes());
             }
             fos.write(" ".getBytes());
@@ -239,6 +233,7 @@ public class MagasinActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Closing magasin activity");
 
         super.onStop();
     }

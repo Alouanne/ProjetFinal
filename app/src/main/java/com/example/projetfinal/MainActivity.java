@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private int nbClickSecondes;
     public ImageView catClicker;
     public static final String FNAME = "sauvegardeClicker.txt";
+    public static final int RESULT_SWITCH_TO_MAGASIN = -2;
+    public static final int RESULT_SWITCH_TO_MAGASIN_PERMANENT = -3;
 
     //Extras
     public static final String LISTE_UPGRADES = "listeUpgrades";
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 m_argent += m_multiplier;
                 argent.setText("" + m_argent);
             }
-        }, 0, 1000);
+        }, 1000, 1000);
 
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -191,6 +193,17 @@ public class MainActivity extends AppCompatActivity {
                         multPermenant = data.getIntArrayExtra(LISTE_UPGRADES_PERMANENT);
                         m_multiplier = data.getIntExtra(MainActivity.MULTIPLIER, 0);
                         pointPerm = data.getIntExtra(MainActivity.POINTS_PERMANENTS, 0);
+                        System.out.println("multiplier = " + m_multiplier);
+                        break;
+
+                    case RESULT_SWITCH_TO_MAGASIN:
+                        data.setClass(getApplicationContext(), MagasinActivity.class);
+                        startActivityForResult(data, 1);
+                        break;
+
+                    case  RESULT_SWITCH_TO_MAGASIN_PERMANENT:
+                        data.setClass(getApplicationContext(), MagasinPermenant.class);
+                        startActivityForResult(data, 2);
                         break;
                     default:
                         break;
@@ -209,13 +222,11 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < etatUpgrades.length; i++)
             {
                 fos.write(" ".getBytes());
-                System.out.println(etatUpgrades[i]);
                 fos.write(String.valueOf(etatUpgrades[i]).getBytes());
             }
             for (int i = 0; i < multPermenant.length; i++)
             {
                 fos.write(" ".getBytes());
-                System.out.println(multPermenant[i]);
                 fos.write(String.valueOf(multPermenant[i]).getBytes());
             }
             fos.write(" ".getBytes());
@@ -227,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        System.out.println("closing mainActivity");
         super.onStop();
     }
 }
