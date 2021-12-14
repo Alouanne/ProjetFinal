@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shop_logo"
+            android:background="@drawable/bouton_shop_ripple"
             android:clickable="true"
             android:focusable="true"
 
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/special_shop_logo"
+            android:background="@drawable/bouton_perm_ripple"
             android:clickable="true"
             android:focusable="true" />
     </LinearLayout>
