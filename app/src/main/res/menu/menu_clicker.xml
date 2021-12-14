@@ -9,4 +9,8 @@
         android:id="@+id/aPropos"
         android:title="@string/propos"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/delete"
+        android:title="Supprimer la sauvegarde"
+        app:showAsAction="never" />
 </menu>

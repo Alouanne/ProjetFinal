@@ -1,6 +1,7 @@
 package com.example.projetfinal;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -334,6 +335,23 @@ public class MainActivity extends AppCompatActivity {
                 builder.setMessage("Créateurs:\nJulien Forget\nAléanne Camiré").setTitle("À propos");
                 AlertDialog alertDialog2 = builder.create();
                 alertDialog2.show();
+                break;
+            case R.id.delete:
+                builder = new AlertDialog.Builder(this);
+                builder.setMessage("Voulez-vous supprimer toutes les données associés à cette application?").setTitle("Supprimer la sauvegarde");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println("delete");
+                    }
+                });
+                builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                AlertDialog alertDialog3 = builder.create();
+                alertDialog3.show();
                 break;
             default:
                 Toast.makeText(MainActivity.this, "Help", Toast.LENGTH_LONG).show();
