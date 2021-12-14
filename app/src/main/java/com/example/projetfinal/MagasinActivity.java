@@ -71,7 +71,6 @@ public class MagasinActivity extends AppCompatActivity {
         statPointTotals = intent.getIntExtra(MainActivity.STAT_POINTS,0);
         statReset = intent.getIntExtra(MainActivity.STAT_RESET,0);
         ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));
-        System.out.println(etatUpgrades[0]);
         listeUpgrades = new ArrayList<>();
         listeUpgrades.add(new ItemMagasin(getString(R.string.ballFil), 2,2,1.07, R.drawable.yarn, etatUpgrades[0], R.drawable.cat_yarn3));
         listeUpgrades.add(new ItemMagasin(getString(R.string.poisson), 72,72,1.15,R.drawable.fish, etatUpgrades[1], R.drawable.cat_fish2));
@@ -276,7 +275,6 @@ public class MagasinActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Closing magasin activity");
 
         super.onStop();
     }

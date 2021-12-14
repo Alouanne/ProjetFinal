@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
 public class MagasinPermenant extends AppCompatActivity {
 
     private ArrayList<ItemObjPerm> listeUpgrades;
@@ -66,7 +65,6 @@ public class MagasinPermenant extends AppCompatActivity {
         statPointTotals = intent.getIntExtra(MainActivity.STAT_POINTS,0);
         statReset = intent.getIntExtra(MainActivity.STAT_RESET,0);
 
-        System.out.println("multiplier : " + multiplier);
         prestige = 0;
         int rer;
         for (int i = 0; i < etatUpgrades.length; i++) {
@@ -120,7 +118,6 @@ public class MagasinPermenant extends AppCompatActivity {
                 intent.putExtra(MainActivity.STAT_POINTS, statPointTotals);
                 intent.putExtra(MainActivity.STAT_RESET, statReset);
                 setResult(RESULT_OK, intent);
-                System.out.println("multiplier = " + multiplier);
                 finish();
             }
         });
@@ -199,7 +196,6 @@ public class MagasinPermenant extends AppCompatActivity {
             {
                 View view = LayoutInflater.from(contexte).inflate(R.layout.row_reset, parent, false);
                 final MagasinAddapter.MagasinViewHolder magasinViewHolder = new MagasinAddapter.MagasinViewHolder(view);
-                System.out.println(listeUpgrades.get(0).getM_explication());
 
 
                 view.findViewById(R.id.buttonReset).setOnClickListener(new View.OnClickListener()
