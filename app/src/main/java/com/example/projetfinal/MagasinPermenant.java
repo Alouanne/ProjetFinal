@@ -48,7 +48,6 @@ public class MagasinPermenant extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reset);
         intent = getIntent();
-
         etatUpgrades = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES);
         intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
         m_argent = intent.getIntExtra(MainActivity.POINTAGE,0);
@@ -85,7 +84,7 @@ public class MagasinPermenant extends AppCompatActivity {
         listeUpgrades.add(new ItemObjPerm(75000, 1.5, "Multiplier le revenue des batons par 3", etatPermenant[3]/360, 3, "T'es sur que c'est pas un chien",3));
         listeUpgrades.add(new ItemObjPerm(100000, 1.5, "Multiplier le revenue des souris par 3", etatPermenant[4]/2160, 3, "Un chat sans ça souris, c'est quoi",4));
         listeUpgrades.add(new ItemObjPerm(125000, 1.5, "Multiplier le revenue des roomba par 3", etatPermenant[5]/18100, 3, "Le divertisement infinie du robot",5));
-        listeUpgrades.add(new ItemObjPerm(150000, 1.5, "Multiplier le revenue des lasers par 3", etatPermenant[6]/162885, 3, "Vader-cat!Vader-cat",6));
+        listeUpgrades.add(new ItemObjPerm(150000, 1.5, "Multiplier le revenue des lasers par 3", etatPermenant[6]/162885, 3, "Vader-cat! Vader-cat",6));
 
 
 
