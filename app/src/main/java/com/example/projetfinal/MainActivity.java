@@ -303,6 +303,24 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    public void delete()
+    {
+        m_argent = 0;
+        for (int i = 0; i < etatUpgrades.length; i++)
+        {
+            etatUpgrades[i] = 0;
+        }
+        multPermenant = new int[]{1,20,90,360,2160,18100,162885, 1};
+        pointPerm = 0;
+        statClickTotal = 0;
+        statReset = 0;
+        statPointTotals = 0;
+        statClicksSecondes = 0;
+
+        TextView argent = findViewById(R.id.numberMoney);
+        argent.setText(String.valueOf(m_argent));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_clicker, menu);
@@ -342,7 +360,8 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        System.out.println("delete");
+                        deleteFile(FNAME);
+                        delete();
                     }
                 });
                 builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {

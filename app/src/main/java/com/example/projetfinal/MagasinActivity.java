@@ -3,6 +3,7 @@ package com.example.projetfinal;
 import static com.example.projetfinal.MainActivity.FNAME;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.graphics.drawable.Drawable;
@@ -141,7 +142,11 @@ public class MagasinActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        intent.putExtra(MainActivity.POINTAGE,m_argent);
+        intent.putExtra(MainActivity.POINTAGE, m_argent);
+        intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+        intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+        intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+        intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
         intent.putExtra(MainActivity.STAT_CLICKS_SECONDES, statClicksSecondes);
         intent.putExtra(MainActivity.STAT_CLICKS_TOTAL, statClickTotal);
         intent.putExtra(MainActivity.STAT_POINTS, statPointTotals);
@@ -276,6 +281,24 @@ public class MagasinActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    public void delete()
+    {
+        m_argent = 0;
+        for (int i = 0; i < etatUpgrades.length; i++)
+        {
+            etatUpgrades[i] = 0;
+        }
+        etatPermenant = new int[]{1,20,90,360,2160,18100,162885, 1};
+        pointPerm = 0;
+        statClickTotal = 0;
+        statReset = 0;
+        statPointTotals = 0;
+        statClicksSecondes = 0;
+        multiplier = 0;
+
+        onBackPressed();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -328,6 +351,24 @@ public class MagasinActivity extends AppCompatActivity {
                 builder.setMessage("Créateurs:\nJulien Forget\nAléanne Camiré").setTitle("À propos");
                 AlertDialog alertDialog2 = builder.create();
                 alertDialog2.show();
+                break;
+            case R.id.delete:
+                builder = new AlertDialog.Builder(this);
+                builder.setMessage("Voulez-vous supprimer toutes les données associés à cette application?").setTitle("Supprimer la sauvegarde");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteFile(FNAME);
+                        delete();
+                    }
+                });
+                builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                AlertDialog alertDialog3 = builder.create();
+                alertDialog3.show();
                 break;
             default:
                 Toast.makeText(getApplicationContext(), "Help", Toast.LENGTH_LONG).show();
