@@ -36,7 +36,7 @@ public class MagasinPermenant extends AppCompatActivity {
     private int[] etatPermenant;
     private int pointPerm;
     private int multiplier;
-    private int prestige;
+    private long prestige;
     private double statClicksSecondes;
     private int statPointTotals;
     private int statClickTotal;

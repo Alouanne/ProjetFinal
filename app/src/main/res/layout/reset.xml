@@ -18,6 +18,8 @@
             android:id="@+id/RecucleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
+
             android:visibility="visible">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -33,8 +35,8 @@
         <Button
             android:id="@+id/ResetB"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:text="Button" />
         <include
             android:id="@+id/low"
