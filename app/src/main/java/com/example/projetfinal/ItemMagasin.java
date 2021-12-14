@@ -10,8 +10,9 @@ public class ItemMagasin
     private double coefficientA;
     private double coefficientB;
     private int idImage;
+    private int idImageButton;
 
-    public ItemMagasin(String infoUpgrade, int prixUpgrade, double coefficientA, double coefficientB, int idImage, int nbAchats)
+    public ItemMagasin(String infoUpgrade, int prixUpgrade, double coefficientA, double coefficientB, int idImage, int nbAchats, int idImageButton)
     {
         this.infoUpgrade = infoUpgrade;
         this.prixUpgrade = prixUpgrade;
@@ -19,6 +20,8 @@ public class ItemMagasin
         this.coefficientB = coefficientB;
         this.idImage = idImage;
         nb = nbAchats;
+        this.idImageButton = idImageButton;
+
         for (int i = 0; i < nbAchats; i++)
             updatePrix();
     }
@@ -51,6 +54,11 @@ public class ItemMagasin
     public String getInfoUpgrade()
     {
         return infoUpgrade;
+    }
+
+    public int getIdImageButton()
+    {
+        return idImageButton;
     }
 
     public void updatePrix()

@@ -7,4 +7,10 @@
     <string name="souris">Mouse</string>
     <string name="roomba">Roomba</string>
     <string name="laser">Laser</string>
+    <string name="statistiques">Statistiques</string>
+    <string name="propos">À propos</string>
+    <string name="nbClicksSecondes">Maximum de clicks par secondes atteint: </string>
+    <string name="nbClicks">Nombre total de clicks effectués: </string>
+    <string name="nbResets">Nombre de resets: </string>
+    <string name="nbPoints">Total des points accumulés: </string>
 </resources>

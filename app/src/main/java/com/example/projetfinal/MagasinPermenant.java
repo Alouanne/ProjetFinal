@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +37,11 @@ public class MagasinPermenant extends AppCompatActivity {
     private int pointPerm;
     private int multiplier;
     private int prestige;
+    private double statClicksSecondes;
+    private int statPointTotals;
+    private int statClickTotal;
+    private int statReset;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,10 @@ public class MagasinPermenant extends AppCompatActivity {
         intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
         multiplier = intent.getIntExtra(MainActivity.MULTIPLIER, 0);
         intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+        statClicksSecondes = intent.getDoubleExtra(MainActivity.STAT_CLICKS_SECONDES,0);
+        statClickTotal = intent.getIntExtra(MainActivity.STAT_CLICKS_TOTAL, 0);
+        statPointTotals = intent.getIntExtra(MainActivity.STAT_POINTS,0);
+        statReset = intent.getIntExtra(MainActivity.STAT_RESET,0);
 
         System.out.println("multiplier : " + multiplier);
         prestige = 0;
@@ -95,13 +107,19 @@ public class MagasinPermenant extends AppCompatActivity {
                     etatUpgrades[i] = 0;
                 }
                 multiplier = 0;
+                statReset +=1;
+                intent.putExtra(MainActivity.POINTAGE, m_argent);
                 intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
-                if(m_argent == 0 && etatUpgrades[0]==0) {
-                    onBackPressed();
-                }else{
-                    Toast.makeText(getApplicationContext(),"Erreur", Toast.LENGTH_SHORT).show();
-
-                }
+                intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
+                intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+                intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+                intent.putExtra(MainActivity.STAT_CLICKS_SECONDES, statClicksSecondes);
+                intent.putExtra(MainActivity.STAT_CLICKS_TOTAL, statClickTotal);
+                intent.putExtra(MainActivity.STAT_POINTS, statPointTotals);
+                intent.putExtra(MainActivity.STAT_RESET, statReset);
+                setResult(RESULT_OK, intent);
+                System.out.println("multiplier = " + multiplier);
+                finish();
             }
         });
         point.setText(pointPerm + " prestige");
@@ -129,6 +147,15 @@ public class MagasinPermenant extends AppCompatActivity {
         buttonmain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
+                intent.putExtra(MainActivity.POINTAGE, m_argent);
+                intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+                intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+                intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+                intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
+                intent.putExtra(MainActivity.STAT_CLICKS_SECONDES, statClicksSecondes);
+                intent.putExtra(MainActivity.STAT_CLICKS_TOTAL, statClickTotal);
+                intent.putExtra(MainActivity.STAT_POINTS, statPointTotals);
+                intent.putExtra(MainActivity.STAT_RESET, statReset);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -138,14 +165,17 @@ public class MagasinPermenant extends AppCompatActivity {
         buttonshop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                Intent intente = new Intent(getApplicationContext(), MagasinActivity.class);
-                intente.putExtra(MainActivity.POINTAGE, m_argent);
-                intente.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
-                intente.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
-                intente.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
-                intente.putExtra(MainActivity.MULTIPLIER,multiplier);
-                startActivityForResult(intente, 2);
-
+                intent.putExtra(MainActivity.POINTAGE, m_argent);
+                intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
+                intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+                intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+                intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
+                intent.putExtra(MainActivity.STAT_CLICKS_SECONDES, statClicksSecondes);
+                intent.putExtra(MainActivity.STAT_CLICKS_TOTAL, statClickTotal);
+                intent.putExtra(MainActivity.STAT_POINTS, statPointTotals);
+                intent.putExtra(MainActivity.STAT_RESET, statReset);
+                setResult(MainActivity.RESULT_SWITCH_TO_MAGASIN, intent);
+                finish();
             }
 
         });
@@ -230,6 +260,10 @@ public class MagasinPermenant extends AppCompatActivity {
         intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
         intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
         intent.putExtra(MainActivity.MULTIPLIER, multiplier);
+        intent.putExtra(MainActivity.STAT_CLICKS_SECONDES, statClicksSecondes);
+        intent.putExtra(MainActivity.STAT_CLICKS_TOTAL, statClickTotal);
+        intent.putExtra(MainActivity.STAT_POINTS, statPointTotals);
+        intent.putExtra(MainActivity.STAT_RESET, statReset);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -245,17 +279,23 @@ public class MagasinPermenant extends AppCompatActivity {
             for (int i = 0; i < etatUpgrades.length; i++)
             {
                 fos.write(" ".getBytes());
-                System.out.println(etatUpgrades[i]);
                 fos.write(String.valueOf(etatUpgrades[i]).getBytes());
             }
             for (int i = 0; i < etatPermenant.length; i++)
             {
                 fos.write(" ".getBytes());
-                System.out.println(etatPermenant[i]);
                 fos.write(String.valueOf(etatPermenant[i]).getBytes());
             }
             fos.write(" ".getBytes());
             fos.write(String.valueOf(pointPerm).getBytes());
+            fos.write(" ".getBytes());
+            fos.write(String.valueOf(statClickTotal).getBytes());
+            fos.write(" ".getBytes());
+            fos.write(String.valueOf(statClicksSecondes).getBytes());
+            fos.write(" ".getBytes());
+            fos.write(String.valueOf(statPointTotals).getBytes());
+            fos.write(" ".getBytes());
+            fos.write(String.valueOf(statReset).getBytes());
             fos.write(" buffer".getBytes());
             fos.close();
         } catch (FileNotFoundException e) {
@@ -286,6 +326,46 @@ public class MagasinPermenant extends AppCompatActivity {
             }
         }
         onBackPressed();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_clicker, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.statisitiques:
+                builder = new AlertDialog.Builder(MagasinPermenant.this);
+                String s1 = getString(R.string.nbClicks);
+                String s2 = " " + String.valueOf(statClickTotal) +"\n";
+                //s2 = String.format(s2, "%10.3F");
+                String s3 = getString(R.string.nbClicksSecondes);
+                String s4 = " " +String.valueOf(statClicksSecondes) + "\n";
+                String s5 = getString(R.string.nbPoints);
+                String s6 = " " +String.valueOf(statPointTotals) + "\n";
+                String s7 = getString(R.string.nbResets);
+                String s8 = " " +String.valueOf(statReset);
+                String message = s1 + s2 +s3+s4+s5+s6+s7+s8;
+
+                builder.setMessage(message).setTitle("Statistiques");
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                break;
+            case R.id.aPropos:
+                builder = new AlertDialog.Builder(MagasinPermenant.this);
+                builder.setMessage("Créateurs:\nJulien Forget\nAléanne Camiré").setTitle("À propos");
+                AlertDialog alertDialog2 = builder.create();
+                alertDialog2.show();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), "Help", Toast.LENGTH_LONG).show();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
 
