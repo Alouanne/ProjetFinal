@@ -3,35 +3,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:backgroundTintMode="add">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTintMode="src_in"
+        android:gravity="left"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageUpgrade"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_gravity="left"
             android:layout_weight="1"
-            android:minHeight="50dp"
+            android:adjustViewBounds="true"
+            android:foregroundGravity="left"
+            android:maxHeight="64dp"
+            android:minHeight="64dp"
+            android:scaleType="fitStart"
+            android:visibility="visible"
             app:srcCompat="@drawable/shop_logo" />
 
         <TextView
             android:id="@+id/infoUpgrade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:maxWidth="75dp"
+            android:minWidth="75dp"
+            android:text="TextView"
+            android:textAlignment="viewStart"
+            android:textSize="24sp"
+            android:typeface="normal" />
 
         <Button
             android:id="@+id/buttonAchat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
             android:layout_weight="1"
+            android:maxWidth="0dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             android:text="Button" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

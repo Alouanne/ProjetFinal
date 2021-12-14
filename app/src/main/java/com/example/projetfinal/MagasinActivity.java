@@ -5,6 +5,7 @@ import static com.example.projetfinal.MainActivity.FNAME;
 import android.content.Context;
 import android.content.Intent;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -71,13 +72,13 @@ public class MagasinActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));
 
         listeUpgrades = new ArrayList<>();
-        listeUpgrades.add(new ItemMagasin(getString(R.string.ballFil), 2,2,1.07, R.drawable.yarn, etatUpgrades[0]));
-        listeUpgrades.add(new ItemMagasin(getString(R.string.poisson), 72,72,1.15,R.drawable.fish, etatUpgrades[1]));
-        listeUpgrades.add(new ItemMagasin(getString(R.string.cloche), 749,749,1.14,R.drawable.bell, etatUpgrades[2]));
-        listeUpgrades.add(new ItemMagasin(getString(R.string.baton), 9752,9752,1.13,R.drawable.stick, etatUpgrades[3]));
-        listeUpgrades.add(new ItemMagasin(getString(R.string.souris), 123456,123456,1.13,R.drawable.souris, etatUpgrades[4]));
-        listeUpgrades.add(new ItemMagasin(getString(R.string.roomba), 1358016,1358016,1.12,R.drawable.roomba, etatUpgrades[5]));
-        listeUpgrades.add(new ItemMagasin(getString(R.string.laser), 14659738,14659738,1.12,R.drawable.laser, etatUpgrades[6]));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.ballFil), 2,2,1.07, R.drawable.yarn, etatUpgrades[0], R.drawable.cat_yarn3));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.poisson), 72,72,1.15,R.drawable.fish, etatUpgrades[1], R.drawable.cat_fish2));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.cloche), 749,749,1.14,R.drawable.bell, etatUpgrades[2], R.drawable.cat_bell));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.baton), 9752,9752,1.13,R.drawable.stick, etatUpgrades[3], R.drawable.rod));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.souris), 123456,123456,1.13,R.drawable.souris, etatUpgrades[4], R.drawable.rat));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.roomba), 1358016,1358016,1.12,R.drawable.roomba, etatUpgrades[5], R.drawable.aspirateur2));
+        listeUpgrades.add(new ItemMagasin(getString(R.string.laser), 14659738,14659738,1.12,R.drawable.laser, etatUpgrades[6], R.drawable.nyan_cat2));
 
         mainListView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new MagasinAdapter(MagasinActivity.this, listeUpgrades);
@@ -201,7 +202,10 @@ public class MagasinActivity extends AppCompatActivity {
             final ItemMagasin itemMagasin = listeUpgrades.get(position);
             holder.textViewUpgrade.setText(itemMagasin.getInfoUpgrade());
             holder.buttonAchat.setText(String.valueOf(itemMagasin.getPrixUpgrade()));
+            Drawable img = getDrawable(itemMagasin.getIdImageButton());
+            holder.buttonAchat.setCompoundDrawablesWithIntrinsicBounds(null, null, img, null);
             holder.imageViewUpgrade.setImageDrawable(getDrawable(itemMagasin.getIdImage()));
+
         }
 
         @Override

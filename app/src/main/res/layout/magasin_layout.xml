@@ -14,7 +14,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             tools:ignore="MissingConstraints">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -22,7 +22,7 @@
         <TextView
             android:id="@+id/textViewArgent"
             android:layout_width="match_parent"
-            android:layout_height="194dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="clip_horizontal|center_horizontal|center_vertical"
