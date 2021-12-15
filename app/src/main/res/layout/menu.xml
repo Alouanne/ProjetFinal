@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,7 +21,9 @@
             android:layout_weight="1"
             android:background="@drawable/bouton_main_ripple"
             android:clickable="true"
-            android:focusable="true" />
+            android:contentDescription="@string/home"
+            android:focusable="true"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageView
             android:id="@+id/Shop_main"
@@ -29,9 +32,11 @@
             android:layout_weight="1"
             android:background="@drawable/bouton_shop_ripple"
             android:clickable="true"
-            android:focusable="true"
+            android:contentDescription="@string/shop"
 
-            android:minHeight="30dp" />
+            android:focusable="true"
+            android:minHeight="30dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageView
             android:id="@+id/specialShop_main"
@@ -40,6 +45,8 @@
             android:layout_weight="1"
             android:background="@drawable/bouton_perm_ripple"
             android:clickable="true"
-            android:focusable="true" />
+            android:contentDescription="@string/reset_shop"
+            android:focusable="true"
+            tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

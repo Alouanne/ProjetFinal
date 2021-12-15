@@ -13,4 +13,8 @@
     <string name="nbClicks">Nombre total de clicks effectués: </string>
     <string name="nbResets">Nombre de resets: </string>
     <string name="nbPoints">Total des points accumulés: </string>
+    <string name="reset_shop">Reset shop</string>
+    <string name="shop">Shop</string>
+    <string name="home">Home</string>
+    <string name="chat">Chat</string>
 </resources>

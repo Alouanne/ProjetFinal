@@ -61,9 +61,9 @@ public class ItemMagasin
         return idImageButton;
     }
 
+    public void addNb(){nb++;}
     public void updatePrix()
     {
         prixUpgrade = (int) ((nb+2)*(coefficientA*Math.pow(coefficientB, nb)));
-        nb++;
     }
 }
