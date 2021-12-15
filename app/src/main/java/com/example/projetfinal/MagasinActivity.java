@@ -181,8 +181,8 @@ public class MagasinActivity extends AppCompatActivity {
                     if (m_argent >= listeUpgrades.get(position).getPrixUpgrade())
                     {
                         m_argent -= listeUpgrades.get(position).getPrixUpgrade();
-                        listeUpgrades.get(position).addNb();
                         listeUpgrades.get(position).updatePrix();
+                        listeUpgrades.get(position).addNb();
                         etatUpgrades[position] += 1;
                         magasinViewHolder.buttonAchat.setText(String.valueOf(listeUpgrades.get(position).getPrixUpgrade()));
                         ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));

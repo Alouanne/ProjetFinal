@@ -26,8 +26,9 @@
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="clip_horizontal|center_horizontal|center_vertical"
-            android:text="placehoder"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="SpeakableTextPresentCheck"
+            android:focusable="true" />
 
         <include
             android:id="@+id/low"

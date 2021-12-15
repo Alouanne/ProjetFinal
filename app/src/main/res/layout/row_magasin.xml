@@ -30,7 +30,8 @@
             android:minHeight="64dp"
             android:scaleType="fitStart"
             android:visibility="visible"
-            app:srcCompat="@drawable/shop_logo" />
+            app:srcCompat="@drawable/shop_logo"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/infoUpgrade"

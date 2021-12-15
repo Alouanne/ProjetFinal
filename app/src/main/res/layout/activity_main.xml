@@ -23,9 +23,10 @@
             android:layout_weight="10"
             android:background="@drawable/clicker_ripple"
             android:backgroundTintMode="multiply"
-            android:contentDescription="@string/chat" />
-        android:clickable="true"
-        android:focusable="true"
+            android:contentDescription="@string/chat"
+            android:clickable="true"
+            android:focusable="true"/>
+
 
         <TextView
             android:id="@+id/numberMoney"
