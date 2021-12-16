@@ -55,22 +55,17 @@ public class MagasinActivity extends AppCompatActivity {
 
         multiplier = intent.getIntExtra(MainActivity.MULTIPLIER, 0);
         etatUpgrades = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES);
-        intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
         etatPermenant = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES_PERMANENT);
-        intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
         m_argent = intent.getIntExtra(MainActivity.POINTAGE,0);
-        intent.putExtra(MainActivity.POINTAGE, m_argent);
         pointPerm = intent.getIntExtra(MainActivity.POINTS_PERMANENTS,0);
-        intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
         for (int i = 0; i < etatUpgrades.length; i++) {
             multiplier += etatUpgrades[i]*etatPermenant[i];
         }
-        intent.putExtra(MainActivity.MULTIPLIER, multiplier);
         statClicksSecondes = intent.getDoubleExtra(MainActivity.STAT_CLICKS_SECONDES,0);
         statClickTotal = intent.getIntExtra(MainActivity.STAT_CLICKS_TOTAL, 0);
         statPointTotals = intent.getIntExtra(MainActivity.STAT_POINTS,0);
         statReset = intent.getIntExtra(MainActivity.STAT_RESET,0);
-        ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));
+
         listeUpgrades = new ArrayList<>();
         listeUpgrades.add(new ItemMagasin(getString(R.string.ballFil), 2,2,1.07, R.drawable.yarn, etatUpgrades[0], R.drawable.cat_yarn3));
         listeUpgrades.add(new ItemMagasin(getString(R.string.poisson), 72,72,1.15,R.drawable.fish, etatUpgrades[1], R.drawable.cat_fish2));
@@ -87,12 +82,12 @@ public class MagasinActivity extends AppCompatActivity {
         mainListView.setAdapter(adapter);
 
         TextView argent = (TextView) (findViewById(R.id.textViewArgent));
+        argent.setText(String.valueOf(m_argent));
 
         ImageView buttonshop = findViewById(R.id.specialShop_main);
         buttonshop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-//                Intent intente = new Intent(getApplicationContext(), MagasinPermenant.class);
                 intent.putExtra(MainActivity.POINTAGE, m_argent);
                 intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
                 intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
@@ -332,7 +327,6 @@ public class MagasinActivity extends AppCompatActivity {
                 builder = new AlertDialog.Builder(MagasinActivity.this);
                 String s1 = getString(R.string.nbClicks);
                 String s2 = " " + String.valueOf(statClickTotal) +"\n";
-                //s2 = String.format(s2, "%10.3F");
                 String s3 = getString(R.string.nbClicksSecondes);
                 String s4 = " " +String.valueOf(statClicksSecondes) + "\n";
                 String s5 = getString(R.string.nbPoints);
@@ -373,7 +367,6 @@ public class MagasinActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Help", Toast.LENGTH_LONG).show();
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -84,7 +84,7 @@ public class ItemObjPerm {
      */
     public void addNumber(){
         nombre++;
-        m_cout = (int) ((nombre+2)*(cout_original*Math.pow(m_multiplieur, nombre)));
+        m_cout = (int) ((nombre+1000000)*(cout_original*Math.pow(m_multiplieur, nombre)));
 
     }
 }
