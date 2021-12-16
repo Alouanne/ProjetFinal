@@ -100,6 +100,7 @@ public class MagasinPermenant extends AppCompatActivity {
 
         //si on click sur le button reset, il faut crée le intent opour le réenvoyer au point original, et tout réinitia lasier a 0
         Button butonReset  = findViewById(R.id.ResetB);
+        butonReset.setText(String.valueOf(prestige));
         butonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

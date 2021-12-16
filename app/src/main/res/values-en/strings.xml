@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ProjetFinal</string>
+    <string name="app_name">Clicker-Cat</string>
     <string name="ballFil">Wool ball</string>
     <string name="poisson">Fish</string>
     <string name="cloche">Bell</string>

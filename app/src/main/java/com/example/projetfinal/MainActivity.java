@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         //      - les statistiques
         //      - les améliorations achetées
         //      - le multiplier
-        //      - les différents points accumulés
+        //      - les deux types de points accumulés
         ImageView buttonshopPerm = findViewById(R.id.specialShop_main);
         buttonshopPerm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -242,9 +242,9 @@ public class MainActivity extends AppCompatActivity {
      * Si le résultat de l'activité est ok : met à jour les variables (Statistiques, upgrades, points, multiplier) selon les imformations reçues
      * Sinon : démarre l'autre activité en lui envoyant les mêmes imformations reçues
      *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode le nombre identifiant l'activité qui a fait commencé l'autre activité
+     * @param resultCode le résultat produit par les autres activités
+     * @param data les informations renvoyées par les autres activités
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
      * enregistre dans un fichier texte interne les informations suivantes:
      * - Les statistiques
      * - Les améliorations achetées
-     * - Les différents points accumulés
+     * - Les deux types de points accumulés
      */
     @Override
     public void onStop()

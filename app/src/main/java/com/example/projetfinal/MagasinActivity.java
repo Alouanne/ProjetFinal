@@ -32,7 +32,7 @@ import java.util.TimerTask;
 
 /**
  * @author Julien Forget et Aléanne Camiré
- * Activité contenant un menu, une ImageView pouvant être clickée, un TextView affichant le nombre de points,
+ * Activité contenant un menu, un RecyclerView contenant tout les upgrades réguliers, un TextView affichant le nombre de points,
  * un interface composé de 3 ImageView qui servent à naviguer entre les activités
  */
 public class MagasinActivity extends AppCompatActivity {
@@ -53,7 +53,11 @@ public class MagasinActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
 
     /**
-     *
+     * Lorsque l'activité est créée :
+     * - démarre un Timer qui augmente à chaque seconde le nombre de points et affiche le nouveau pointage
+     * - récupère toutes les information envoyées par l'activité principale
+     * - Ajoute les onClickListener aux 3 ImageView de l'interface en bas de l'écran
+     * - initialise le RecyclerView selon les informations fournies par l'activité principale
      * @param savedInstanceState
      */
     @Override
@@ -62,6 +66,7 @@ public class MagasinActivity extends AppCompatActivity {
         setContentView(R.layout.magasin_layout);
         intent = getIntent();
 
+        //Récupère les informations envoyées par l'activité principale
         multiplier = intent.getIntExtra(MainActivity.MULTIPLIER, 0);
         etatUpgrades = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES);
         etatPermenant = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES_PERMANENT);
@@ -75,6 +80,7 @@ public class MagasinActivity extends AppCompatActivity {
         statPointTotals = intent.getIntExtra(MainActivity.STAT_POINTS,0);
         statReset = intent.getIntExtra(MainActivity.STAT_RESET,0);
 
+        //Initialise la liste des upgrades pouvant être achetées
         listeUpgrades = new ArrayList<>();
         listeUpgrades.add(new ItemMagasin(getString(R.string.ballFil), 2,2,1.07, R.drawable.yarn, etatUpgrades[0], R.drawable.cat_yarn3));
         listeUpgrades.add(new ItemMagasin(getString(R.string.poisson), 72,72,1.15,R.drawable.fish, etatUpgrades[1], R.drawable.cat_fish2));
@@ -84,6 +90,7 @@ public class MagasinActivity extends AppCompatActivity {
         listeUpgrades.add(new ItemMagasin(getString(R.string.roomba), 1358016,1358016,1.12,R.drawable.roomba, etatUpgrades[5], R.drawable.aspirateur2));
         listeUpgrades.add(new ItemMagasin(getString(R.string.laser), 14659738,14659738,1.12,R.drawable.laser, etatUpgrades[6], R.drawable.nyan_cat2));
 
+        //Initialise le RecyclerView avec la liste des upgrades pouvant être achetées
         mainListView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new MagasinAdapter(MagasinActivity.this, listeUpgrades);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -93,6 +100,11 @@ public class MagasinActivity extends AppCompatActivity {
         TextView argent = (TextView) (findViewById(R.id.textViewArgent));
         argent.setText(String.valueOf(m_argent));
 
+        //  finit l'activité et demande à l'activité principale de démarrer l'activité MagasinPermanent avec les informations suivantes:
+        //  - les statisitiques
+        //  - le multiplier
+        //  - les deux types de points accumulés
+        //  - les améliorations achetées
         ImageView buttonshop = findViewById(R.id.specialShop_main);
         buttonshop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -112,6 +124,9 @@ public class MagasinActivity extends AppCompatActivity {
 
         });
 
+        //Timer qui augmente à chaque seconde le nombre de points par la valeur du mutiplier
+        //Affiche le nouveau nombre de points
+        //Met à jour la statistique du nombre de points accumulés
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -122,7 +137,11 @@ public class MagasinActivity extends AppCompatActivity {
         }, 0000, 1000);
 
 
-
+        //  finit l'activité en renvoyant à l'activité principale les informations suivantes:
+        //  - les statisitiques
+        //  - le multiplier
+        //  - les deux types de points accumulés
+        //  - les améliorations achetées
         ImageView buttonmain = findViewById(R.id.Clicker_main);
         buttonmain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -144,7 +163,11 @@ public class MagasinActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * finit l'activité en renvoyant à l'activité principale les informations suivantes:
+     * - les statisitiques
+     * - le multiplier
+     * - les deux types de points accumulés
+     * - les améliorations achetées
      */
     @Override
     public void onBackPressed()
@@ -163,7 +186,7 @@ public class MagasinActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     *  Adapter qui convertit les informations contenus dans un ItemMagasin en une view personnalisée qui peut être mise dans un RecyclerView
      */
     public class MagasinAdapter extends RecyclerView.Adapter<MagasinAdapter.MagasinViewHolder>
     {
@@ -171,9 +194,9 @@ public class MagasinActivity extends AppCompatActivity {
         private final ArrayList<ItemMagasin> listeUpgrades;
 
         /**
-         *
-         * @param contexte
-         * @param listeUpgrades
+         * Initialise le contexte et la liste des upgrades utilisés par l'adapter
+         * @param contexte contexte de l'activité
+         * @param listeUpgrades liste de les ItemMagasin à mettre dans le RecyclerView
          */
         public MagasinAdapter(Context contexte, ArrayList<ItemMagasin> listeUpgrades)
         {
@@ -182,9 +205,9 @@ public class MagasinActivity extends AppCompatActivity {
         }
 
         /**
-         * Inflate les rows du RecyclerView
-         * @param parent
-         * @param viewType
+         * Inflate les rows du RecyclerView et ajoute les  onCLickListener pour le bouton de chaque row
+         * @param parent le ViewGroup qui regroupe les rows
+         * @param viewType Le type de view
          * @return magasinViewHolder
          */
         @Override
@@ -200,6 +223,7 @@ public class MagasinActivity extends AppCompatActivity {
             // - Change le TextView pour qu'il affiche le nouveau nombre de points après l'achat
             // - Update le prix de l'upgrade de l'ItemMagasin associé à la row (view)
             // - Augmente le multiplier selon l'ItemMagasin acheté
+            // Sinon affiche un toast
             view.findViewById(R.id.buttonAchat).setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -246,7 +270,7 @@ public class MagasinActivity extends AppCompatActivity {
         }
 
         /**
-         *
+         * Retourne la taille du RecyclerView
          * @return le nombre de row du RecyclerView (sa taille)
          */
         @Override
