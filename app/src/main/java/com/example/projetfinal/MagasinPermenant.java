@@ -130,10 +130,6 @@ public class MagasinPermenant extends AppCompatActivity {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                multiplier = 0;
-                for (int i = 0; i < etatUpgrades.length; i++) {
-                    multiplier += etatUpgrades[i]*etatPermenant[i];
-                }
                 m_argent += multiplier;
             }
         }, 0, 1000);
@@ -224,7 +220,10 @@ public class MagasinPermenant extends AppCompatActivity {
                             buttonAchat.setText(listeUpgrades.get(position).getM_cout() + "");
                             TextView point =findViewById(R.id.PointReset);
                             point.setText(pointPerm + " prestige");
-                            intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
+                            multiplier = 0;
+                            for (int i = 0; i < etatUpgrades.length; i++) {
+                                multiplier += etatUpgrades[i]*etatPermenant[i];
+                            }
 
                         }else{
                             Toast.makeText(getApplicationContext(),"Pas assez de prestige", Toast.LENGTH_SHORT).show();
