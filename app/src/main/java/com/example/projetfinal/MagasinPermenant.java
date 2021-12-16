@@ -51,15 +51,10 @@ public class MagasinPermenant extends AppCompatActivity {
         setContentView(R.layout.reset);
         intent = getIntent();
         etatUpgrades = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES);
-        intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
         m_argent = intent.getIntExtra(MainActivity.POINTAGE,0);
-        intent.putExtra(MainActivity.POINTAGE, m_argent);
         etatPermenant = intent.getIntArrayExtra(MainActivity.LISTE_UPGRADES_PERMANENT);
-        intent.putExtra(MainActivity.LISTE_UPGRADES_PERMANENT, etatPermenant);
         pointPerm = intent.getIntExtra(MainActivity.POINTS_PERMANENTS, 0);
-        intent.putExtra(MainActivity.POINTS_PERMANENTS, pointPerm);
         multiplier = intent.getIntExtra(MainActivity.MULTIPLIER, 0);
-        intent.putExtra(MainActivity.MULTIPLIER, multiplier);
         statClicksSecondes = intent.getDoubleExtra(MainActivity.STAT_CLICKS_SECONDES,0);
         statClickTotal = intent.getIntExtra(MainActivity.STAT_CLICKS_TOTAL, 0);
         statPointTotals = intent.getIntExtra(MainActivity.STAT_POINTS,0);
@@ -72,7 +67,7 @@ public class MagasinPermenant extends AppCompatActivity {
             prestige += 100 * Math.pow(rer,2);
         }
 
-        TextView point =findViewById(R.id.PointReset);
+        TextView point = findViewById(R.id.PointReset);
 
 
 
