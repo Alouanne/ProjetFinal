@@ -3,16 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/ASP/ProjetFinal/app/src/main/res/layout/activity_main.xml" value="0.1390532544378698" />
+        <entry key="..\:/ASP/ProjetFinal/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/ASP/ProjetFinal/app/src/main/res/layout/layout_temporaire.xml" value="0.13072916666666667" />
         <entry key="..\:/ASP/ProjetFinal/app/src/main/res/layout/magasin_layout.xml" value="0.12604166666666666" />
         <entry key="..\:/ASP/ProjetFinal/app/src/main/res/layout/menu.xml" value="0.1265625" />
         <entry key="..\:/ASP/ProjetFinal/app/src/main/res/layout/menu_choix.xml" value="0.264" />
-        <entry key="..\:/ASP/ProjetFinal/app/src/main/res/layout/reset.xml" value="0.1441717791411043" />
+        <entry key="..\:/ASP/ProjetFinal/app/src/main/res/layout/reset.xml" value="0.264" />
         <entry key="..\:/ASP/ProjetFinal/app/src/main/res/layout/row_magasin.xml" value="0.264" />
         <entry key="..\:/ASP/ProjetFinal/app/src/main/res/layout/row_reset.xml" value="0.264" />
+        <entry key="..\:/Users/Julien Forget/AndroidStudioProjects/ProjetFinal/app/src/main/res/drawable/bouton_main_ripple.xml" value="0.3828125" />
+        <entry key="..\:/Users/Julien Forget/AndroidStudioProjects/ProjetFinal/app/src/main/res/drawable/bouton_perm_ripple.xml" value="0.3828125" />
+        <entry key="..\:/Users/Julien Forget/AndroidStudioProjects/ProjetFinal/app/src/main/res/drawable/bouton_shop_ripple.xml" value="0.3828125" />
         <entry key="..\:/Users/Julien Forget/AndroidStudioProjects/ProjetFinal/app/src/main/res/drawable/clicker_ripple.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/Julien Forget/AndroidStudioProjects/ProjetFinal/app/src/main/res/drawable/clicker_ripple_fire.xml" value="0.21822916666666667" />
+        <entry key="..\:/Users/Julien Forget/AndroidStudioProjects/ProjetFinal/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3828125" />
         <entry key="..\:/Users/Julien Forget/AndroidStudioProjects/ProjetFinal/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/Julien Forget/AndroidStudioProjects/ProjetFinal/app/src/main/res/layout/magasin_layout.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/Julien Forget/AndroidStudioProjects/ProjetFinal/app/src/main/res/layout/menu.xml" value="0.1" />
