@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
      *  - Supprimer la sauvegarde
      *
      * @param menu
-     * @return
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -372,13 +372,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Ajoute les fonctionnalités suivantes aux éléments du menu lorsqu'ils sont sélectionnés:
+     * Ajoute les fonctionnalités suivantes aux éléments du menu lorsqu'ils sont sélectionnés (onClickListener):
      * - Pour l'élément "À Propos" : Affiche un AlertDialog contenant les informations générales de l'application
      * - Pour l'élément "Statistiques" : Affiche un AlertDialog contenant le nombre total de clicks, le nombre maximum de clicks par seconde,
      *                                  le nombre total de points accumulés et le nombre de reset effectués.
      * - Pour l'élément "Supprimer la sauvegarde" : Affiche un AlertDialog avec deux boutons, oui et non.
      *                                              Le bouton oui supprime la sauvegarde de l'application
-     *                                              Le bouton non ferme l'AlertDialg
+     *                                              Le bouton non ferme l'AlertDialog
      *
      * @param item
      * @return

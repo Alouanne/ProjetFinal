@@ -30,6 +30,11 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * @author Julien Forget et Aléanne Camiré
+ * Activité contenant un menu, une ImageView pouvant être clickée, un TextView affichant le nombre de points,
+ * un interface composé de 3 ImageView qui servent à naviguer entre les activités
+ */
 public class MagasinActivity extends AppCompatActivity {
 
     private RecyclerView mainListView;
@@ -47,6 +52,10 @@ public class MagasinActivity extends AppCompatActivity {
     private int statReset;
     private AlertDialog.Builder builder;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +111,7 @@ public class MagasinActivity extends AppCompatActivity {
             }
 
         });
+
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -133,6 +143,9 @@ public class MagasinActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     *
+     */
     @Override
     public void onBackPressed()
     {
@@ -149,17 +162,31 @@ public class MagasinActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     *
+     */
     public class MagasinAdapter extends RecyclerView.Adapter<MagasinAdapter.MagasinViewHolder>
     {
         private final Context contexte;
         private final ArrayList<ItemMagasin> listeUpgrades;
 
+        /**
+         *
+         * @param contexte
+         * @param listeUpgrades
+         */
         public MagasinAdapter(Context contexte, ArrayList<ItemMagasin> listeUpgrades)
         {
             this.contexte = contexte;
             this.listeUpgrades = listeUpgrades;
         }
 
+        /**
+         * Inflate les rows du RecyclerView
+         * @param parent
+         * @param viewType
+         * @return magasinViewHolder
+         */
         @Override
         public MagasinViewHolder onCreateViewHolder(final ViewGroup parent, int viewType)
         {
@@ -167,6 +194,12 @@ public class MagasinActivity extends AppCompatActivity {
             final MagasinViewHolder magasinViewHolder = new MagasinViewHolder(view);
 
 
+            // Si le nombre de points est suffisant,
+            // - Augmente de 1 le etatUpgrade (liste qui traque le nb d'achats de chaque upgrade) à la même position que le bouton clické de la row (view)
+            // - Diminue le nombre de points par le prix de l'upgrade de l'ItemMagasin associé à la row (view)
+            // - Change le TextView pour qu'il affiche le nouveau nombre de points après l'achat
+            // - Update le prix de l'upgrade de l'ItemMagasin associé à la row (view)
+            // - Augmente le multiplier selon l'ItemMagasin acheté
             view.findViewById(R.id.buttonAchat).setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -177,15 +210,10 @@ public class MagasinActivity extends AppCompatActivity {
                     {
                         m_argent -= listeUpgrades.get(position).getPrixUpgrade();
                         listeUpgrades.get(position).updatePrix();
-                        listeUpgrades.get(position).addNb();
                         etatUpgrades[position] += 1;
                         magasinViewHolder.buttonAchat.setText(String.valueOf(listeUpgrades.get(position).getPrixUpgrade()));
                         ((TextView) findViewById(R.id.textViewArgent)).setText(String.valueOf(m_argent));
                         multiplier += etatPermenant[position];
-
-                        intent.putExtra(MainActivity.POINTAGE, m_argent);
-                        intent.putExtra(MainActivity.LISTE_UPGRADES, etatUpgrades);
-                        intent.putExtra(MainActivity.MULTIPLIER, multiplier);
                     }
                     else
                     {
@@ -196,6 +224,15 @@ public class MagasinActivity extends AppCompatActivity {
             return magasinViewHolder;
         }
 
+        /**
+         * Construit une row du recycler view avec l'ItemMagasin à la même position dans l'ArrayList que la position de la row dans le RecyclerView
+         * Le TextView va correspondre au nom de l'ItemMagasin
+         * L'ImageView va correspondre à l'identifiant de la ressource Drawable de l'ItemMagasin
+         * Le texte du Button va correspondre aux prix de l'upgrade de l'ItemMagsin
+         * L'image du Button va correspondre à l'identifiant de la ressource Drawable du bouton de l'ItemMagasin
+         * @param holder une row (view) du RecyclerView
+         * @param position la position de la row (view) dans le RecyclerView
+         */
         @Override
         public void onBindViewHolder(final MagasinViewHolder holder, int position)
         {
@@ -208,24 +245,29 @@ public class MagasinActivity extends AppCompatActivity {
 
         }
 
+        /**
+         *
+         * @return le nombre de row du RecyclerView (sa taille)
+         */
         @Override
         public int getItemCount()
         {
             return listeUpgrades.size();
         }
 
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
+        /**
+         * Objet qui garde en mémoire l'ImageView, le TextView et le Button de chaque row du RecyclerView
+         */
         class MagasinViewHolder extends RecyclerView.ViewHolder
         {
             public TextView textViewUpgrade;
             public ImageView imageViewUpgrade;
             public Button buttonAchat;
 
+            /**
+             * Trouve le TextView, l'ImageView et le Button qui compose la view, et les stocks en mémoire dans leurs objets correspondants
+             * @param view : une row du RecyclerView
+             */
             public MagasinViewHolder(View view)
             {
                 super(view);
@@ -236,6 +278,13 @@ public class MagasinActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Lorsque l'activité se ferme:
+     * enregistre dans un fichier texte interne les informations suivantes:
+     * - Les statistiques
+     * - Les améliorations achetées
+     * - Les différents points accumulés
+     */
     @Override
     public void onStop()
     {
@@ -275,6 +324,11 @@ public class MagasinActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    /**
+     * - Remet à 0 les statistiques, les différents points accumulés et le multiplier
+     * - Enlève tout les upgrades achetés
+     * - Retourne à l'activité principale avec les variables réinitialiser
+     */
     public void delete()
     {
         m_argent = 0;
@@ -293,26 +347,15 @@ public class MagasinActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode,resultCode,data);
-
-        if (data != null) {
-            switch (resultCode) {
-                case RESULT_OK:
-                    m_argent = data.getIntExtra(MainActivity.POINTAGE, 0);
-                    etatUpgrades = data.getIntArrayExtra(MainActivity.LISTE_UPGRADES);
-                    etatPermenant = data.getIntArrayExtra(MainActivity.LISTE_UPGRADES_PERMANENT);
-                    pointPerm = data.getIntExtra(MainActivity.POINTS_PERMANENTS,0);
-                    multiplier = data.getIntExtra(MainActivity.MULTIPLIER, 0);
-                    break;
-                default:
-                    break;
-            }
-        }
-        onBackPressed();
-    }
+    /**
+     * Crée le menu situé en haut de l'activité principale qui contient les 3 éléments suivants:
+     *  - À propos
+     *  - Statistiques
+     *  - Supprimer la sauvegarde
+     *
+     * @param menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_clicker, menu);
@@ -320,6 +363,18 @@ public class MagasinActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Ajoute les fonctionnalités suivantes aux éléments du menu lorsqu'ils sont sélectionnés (onClickListener):
+     * - Pour l'élément "À Propos" : Affiche un AlertDialog contenant les informations générales de l'application
+     * - Pour l'élément "Statistiques" : Affiche un AlertDialog contenant le nombre total de clicks, le nombre maximum de clicks par seconde,
+     *                                  le nombre total de points accumulés et le nombre de reset effectués.
+     * - Pour l'élément "Supprimer la sauvegarde" : Affiche un AlertDialog avec deux boutons, oui et non.
+     *                                              Le bouton oui supprime la sauvegarde de l'application
+     *                                              Le bouton non ferme l'AlertDialog
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
